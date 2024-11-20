@@ -1,9 +1,12 @@
 package com.duongpham26.LaptopShop.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,6 +17,9 @@ public class Order {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
    private double totalPrice;
+
+   // @OneToMany(mappedBy = "order")
+   // private List<OrderDetail> orderDetails;
 
    public long getId() {
       return id;
@@ -31,8 +37,5 @@ public class Order {
    @Override
    public String toString() {
       return "Order [id=" + id + ", totalPrice=" + totalPrice + "]";
-   }
-
-   
-   
+   }  
 }
