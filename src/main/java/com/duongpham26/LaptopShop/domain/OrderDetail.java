@@ -1,6 +1,5 @@
 package com.duongpham26.LaptopShop.domain;
 
-import org.aspectj.weaver.ast.Or;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

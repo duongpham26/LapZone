@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.duongpham26.LaptopShop.domain.User;
-import com.duongpham26.LaptopShop.repository.UserRepository;
 import com.duongpham26.LaptopShop.service.UserService;
 
 // // Spring MVC
@@ -85,7 +84,7 @@ public class UserController {
    @RequestMapping(value = "admin/user/create", method = RequestMethod.POST)
    public String doAddUser(@ModelAttribute("newUser")User user, ModelMap model) {
 
-      User u = this.userService.handleSavaUser(user);
+      this.userService.handleSavaUser(user);
       String redirectUrl = "/admin/user";
       return "redirect:" + redirectUrl;
    }
