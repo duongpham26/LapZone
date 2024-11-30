@@ -28,25 +28,39 @@
                            <li class="breadcrumb-item active">Users</li>
                         </ol>
                         <div class="container mt-5">
-
-                           <div class="row">
-                              <div class="col-md-12  mb-3 mx-auto">
-                                 <h3>Delete user with ${id}</h3>
-                                 <hr />
-                                 <div class="alert alert-danger" role="alert">
-                                    Are sure to delete user?
-                                 </div>
-                                 <form:form action="/admin/user/delete" method="post" modelAttribute="newUser">
-                                    <div class="mb-3 d-none">
-                                       <form:label class="form-label" path="id">Id</form:label>
-                                       <form:input class="form-control" path="id" value="${id}"/>
-                                    </div>
-                                    <button type="submit" class="btn btn-danger">Confirm</button>
-                                 </form:form>
-                              </div>
+                           <div class="d-flex justify-content-between">
+                              <h3 class="mb-0">Table User</h3>
+                              <a class="btn btn-primary" href="/admin/user/create" role="button">Create User</a>
                            </div>
+                           <hr />
+
+                           <table class="table table-bordered table-hover align-middle text-center">
+                              <thead>
+                                 <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Action</th>
+                                 </tr>
+                              </thead>
+
+                              <tbody>
+                                 <c:forEach var="user" items="${users}">
+                                    <tr>
+                                       <th scope="row">${user.id}</th>
+                                       <td>${user.email}</td>
+                                       <td>${user.fullName}</td>
+                                       <td class="text-center">
+                                          <a href="/admin/user/${user.id}" class="btn btn-success">View</a>
+                                          <a href="/admin/user/update/${user.id}"
+                                             class="btn btn-warning mx-3">Update</a>
+                                          <a class="btn btn-danger" href="/admin/user/delete/${user.id}">Delete</a>
+                                       </td>
+                                    </tr>
+                                 </c:forEach>
+                              </tbody>
+                           </table>
                         </div>
-            
                      </div>
                   </main>
                   <jsp:include page="../layout/footer.jsp" />

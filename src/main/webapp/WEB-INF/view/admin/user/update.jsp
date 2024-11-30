@@ -31,36 +31,37 @@
 
                            <div class="row">
                               <div class="col-md-6 mb-3 mx-auto">
-                                 <h2>Create a user</h2>
+                                 <h2>Update a user</h2>
                                  <hr />
-                                 <form:form action="/admin/user/create" method="post" modelAttribute="newUser">
-            
-                                    <div class="mb-3">
-                                       <form:label class="form-label" path="email">Email</form:label>
-                                       <form:input class="form-control" path="email" type="email" />
+                                 <form:form action="/admin/user/update" method="post" modelAttribute="updateUser">
+                                    <div class="mb-3 d-none">
+                                       <form:label class="form-label" path="id">Id</form:label>
+                                       <form:input class="form-control" path="id" value="${id}"/>
                                     </div>
             
                                     <div class="mb-3">
-                                       <form:label class="form-label" path="password">Password</form:label>
-                                       <form:input class="form-control" path="password" type="password" />
+                                       <form:label class="form-label" path="email">Email</form:label>
+                                       <form:input class="form-control" path="email" type="email" disabled="true"/>
                                     </div>
             
                                     <div class="mb-3">
                                        <form:label class="form-label" path="fullName">Full Name</form:label>
-                                       <form:input class="form-control" path="fullName" />
+                                       <form:input class="form-control" path="fullName"/>
                                     </div>
             
                                     <div class="mb-3">
                                        <form:label class="form-label" path="phone">Phone</form:label>
-                                       <form:input class="form-control" path="phone" />
+                                       <form:input class="form-control" path="phone"/>
                                     </div>
             
                                     <div class="mb-3">
                                        <form:label class="form-label" path="address">Address</form:label>
-                                       <form:input class="form-control" path="address" />
+                                       <form:input class="form-control" path="address"/>
                                     </div>
-            
-                                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                                    <div class="mt-3">
+                                       <button type="submit" class="btn btn-warning ">Update</button>
+                                       <a class="btn btn-success mx-3" href="/admin/user" >Exit</a>
+                                    </div>
             
                                  </form:form>
                               </div>

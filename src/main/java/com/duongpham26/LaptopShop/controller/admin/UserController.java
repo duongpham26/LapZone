@@ -1,4 +1,4 @@
-package com.duongpham26.LaptopShop.controller;
+package com.duongpham26.LaptopShop.controller.admin;
 
 import java.util.List;
 
@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +38,7 @@ public class UserController {
    public String getUserPage(Model model) {
       List<User> users = this.userService.getAllUsers();
       model.addAttribute("users", users);
-      return "admin/user/table-user";
+      return "admin/user/show";
    }
 
    @RequestMapping("/admin/user/{id}")
@@ -48,7 +46,7 @@ public class UserController {
 
       User user = this.userService.getUserById(id);
       model.addAttribute("user", user);
-      return "admin/user/show-user";
+      return "admin/user/detail";
    }
 
    @RequestMapping("/admin/user/create")
@@ -62,7 +60,7 @@ public class UserController {
       model.addAttribute("id", id);
       User currentUser = this.userService.getUserById(id);
       model.addAttribute("updateUser", currentUser);
-      return "admin/user/update-user";
+      return "admin/user/update";
    }
 
    @PostMapping("/admin/user/update")
