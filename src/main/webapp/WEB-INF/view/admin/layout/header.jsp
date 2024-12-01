@@ -17,9 +17,9 @@
       </div>
    </form> -->
          <!-- Navbar-->
-         <div style="display: flex; align-items: center; justify-content: flex-end; width: 100%;">
-            <div style="color: white;">Hello Bích Duy</div>
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+         <!-- <div style="display: flex; align-items: center; justify-content: flex-end; width: 100%;"> -->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" style="display: flex; align-items: center; justify-content: flex-end; width: 100%;">
+               <div style="color: white;">Hello Bích Duy</div>
                <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                      data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -33,5 +33,5 @@
                   </ul>
                </li>
             </ul>
-         </div>
+         <!-- </div> -->
       </nav>
