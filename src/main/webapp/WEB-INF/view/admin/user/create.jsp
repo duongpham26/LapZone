@@ -3,7 +3,6 @@
       <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
          <!DOCTYPE html>
          <html lang="en">
-
          <head>
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,6 +12,19 @@
             <title>Dashboard - SB Admin</title>
             <link href="/css/styles.css" rel="stylesheet" />
             <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+            <script>
+               $(document).ready(() => {
+                  const avatarFile = $("#avatarFile");
+                  avatarFile.change(function (e) {
+                     const imgURL = URL.createObjectURL(e.target.files[0]);
+                     console.log(imgURL);
+                     
+                     $("#avatarPreview").attr("src", imgURL);
+                     $("#avatarPreview").css({ "display": "block" });
+                  })
+               })
+            </script>
          </head>
 
          <body class="sb-nav-fixed">
@@ -33,7 +45,7 @@
                               <div class="col-md-6 mb-3 mx-auto">
                                  <h2>Create a user</h2>
                                  <hr />
-                                 <form:form action="/admin/user/create" method="post" modelAttribute="newUser" class="row">
+                                 <form:form action="/admin/user/create" method="post" modelAttribute="newUser" enctype="multipart/form-data" class="row">
                                     <div class="mb-3 col-md-6 col-12">
                                        <form:label class="form-label" path="email">Email</form:label>
                                        <form:input class="form-control" path="email" type="email" />
@@ -60,16 +72,16 @@
                                     </div>
 
                                     <div class="mb-3 col-12 col-md-6">
-                                       <label class="form-label" path="role">Role</label>
-                                       <select class="form-select">
-                                          <option value="ADMIN">Admin</option>
-                                          <option value="USER">User</option>
-                                        </select>
+                                       <label class="form-label">Role</label>
+                                       <form:select class="form-select" path="role.name">
+                                          <form:option value="ADMIN">ADMIN</form:option>
+                                          <form:option value="USER">USER</form:option>
+                                        </form:select>
                                     </div>
 
                                     <div class="mb-3 col-12 col-md-6">
-                                       <label for="formFile" class="form-label">Avatar</label>
-                                       <input class="form-control" type="file" id="formFile" />
+                                       <label for="avatarFile" class="form-label">Avatar</label>
+                                       <input class="form-control" type="file" id="avatarFile" accept=".png, .jpg, .jpeg" name="imageFile"/>
                                     </div>
 
                                     <div class="mb-3 col-12">

@@ -1,5 +1,8 @@
 package com.duongpham26.LaptopShop.controller.admin;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -11,8 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.duongpham26.LaptopShop.domain.User;
+import com.duongpham26.LaptopShop.service.UploadService;
 import com.duongpham26.LaptopShop.service.UserService;
 
 // // Spring MVC
@@ -21,11 +27,14 @@ public class UserController {
    
    private final UserService userService;
 
-   public UserController(UserService userService) {
+   private final UploadService uploadService;
+
+   public UserController(UserService userService, UploadService uploadService) {
       this.userService = userService;
+      this.uploadService = uploadService;
    }
 
-   @RequestMapping("/")
+   @GetMapping("/")
    public String getHomePage(Model model) {
       List<User> arrUser = this.userService.getAllUsersByEmail("duong.pham2617@gmail.com");
       System.out.println("Array user : " + arrUser);
@@ -79,10 +88,11 @@ public class UserController {
       return "redirect:" + redirectUrl;
    }
 
-   @RequestMapping(value = "admin/user/create", method = RequestMethod.POST)
-   public String doAddUser(@ModelAttribute("newUser")User user, ModelMap model) {
-
-      this.userService.handleSavaUser(user);
+   
+   @PostMapping(value = "admin/user/create")
+   public String doAddUser(@ModelAttribute("newUser")User user, @RequestParam("imageFile") MultipartFile file) {
+      this.uploadService.handleSaveUploadFile(file, "avatar");
+      // this.userService.handleSavaUser(user);
       String redirectUrl = "/admin/user";
       return "redirect:" + redirectUrl;
    }
