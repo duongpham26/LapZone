@@ -18,7 +18,8 @@ public class UploadService {
       this.servletContext = servletContext;
    }
 
-   public void handleSaveUploadFile(MultipartFile file, String folder) {
+   public String handleSaveUploadFile(MultipartFile file, String folder) {
+		String pathAvatar = null;
       if (!file.isEmpty()) {
 			try {
 				String rootPath = this.servletContext.getRealPath("/resources/images");
@@ -28,7 +29,8 @@ public class UploadService {
 					dir.mkdirs();
 
 				// Create the file on server
-				File serverFile = new File(dir.getAbsolutePath()+ File.separator + System.currentTimeMillis() + "-" + file.getOriginalFilename());
+				pathAvatar = dir.getAbsolutePath()+ File.separator + System.currentTimeMillis() + "-" + file.getOriginalFilename();
+				File serverFile = new File(pathAvatar);
             //uuid => tao id kh trung
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
@@ -39,5 +41,6 @@ public class UploadService {
 		} else {
 			// return "You failed to upload " + user + " because the file was empty.";
 		}
+		return pathAvatar;
    }
 }

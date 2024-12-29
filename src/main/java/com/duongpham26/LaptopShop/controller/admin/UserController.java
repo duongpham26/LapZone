@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -29,9 +30,16 @@ public class UserController {
 
    private final UploadService uploadService;
 
-   public UserController(UserService userService, UploadService uploadService) {
+   private final PasswordEncoder passwordEncoder;
+
+   public UserController(
+         UserService userService, 
+         UploadService uploadService,
+         PasswordEncoder passwordEncoder
+      ) {
       this.userService = userService;
       this.uploadService = uploadService;
+      this.passwordEncoder = passwordEncoder;
    }
 
    @GetMapping("/")
@@ -91,8 +99,15 @@ public class UserController {
    
    @PostMapping(value = "admin/user/create")
    public String doAddUser(@ModelAttribute("newUser")User user, @RequestParam("imageFile") MultipartFile file) {
-      this.uploadService.handleSaveUploadFile(file, "avatar");
-      // this.userService.handleSavaUser(user);
+      String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+      String password = this.passwordEncoder.encode(user.getPassword());
+
+      user.setAvatar(avatar);
+      user.setPassword(password);
+      user.setRole(this.userService.getRoleByName(user.getRole().getName()));
+
+      this.userService.handleSavaUser(user);
+
       String redirectUrl = "/admin/user";
       return "redirect:" + redirectUrl;
    }
