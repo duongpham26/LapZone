@@ -3,6 +3,7 @@ package com.duongpham26.LaptopShop.controller.admin;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,7 +43,7 @@ public class UserController {
       this.passwordEncoder = passwordEncoder;
    }
 
-   @GetMapping("/")
+   @GetMapping("/user")
    public String getHomePage(Model model) {
       List<User> arrUser = this.userService.getAllUsersByEmail("duong.pham2617@gmail.com");
       System.out.println("Array user : " + arrUser);
@@ -84,11 +85,12 @@ public class UserController {
    public String postUpdateUser(Model model, @ModelAttribute("newUser")User user) {
       long id = user.getId();
       User currentUser = this.userService.getUserById(id);
-      System.out.println(currentUser);
+
       if(currentUser != null) {
          currentUser.setFullName(user.getFullName());
          currentUser.setAddress(user.getAddress());
          currentUser.setPhone(user.getPhone());
+         currentUser.setRole(this.userService.getRoleByName(user.getRole().getName()));
          this.userService.handleSavaUser(currentUser);
       }
       model.addAttribute("updateUser", currentUser);
@@ -96,7 +98,6 @@ public class UserController {
       return "redirect:" + redirectUrl;
    }
 
-   
    @PostMapping(value = "admin/user/create")
    public String doAddUser(@ModelAttribute("newUser")User user, @RequestParam("imageFile") MultipartFile file) {
       String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
@@ -121,7 +122,9 @@ public class UserController {
 
    
    @PostMapping("admin/user/delete")
-   public String postDeleteUser(@ModelAttribute("newUser")User user) {
+   public String postDeleteUser(@ModelAttribute("newUser")User user) throws IOException {
+      String pathAvatar = this.userService.getUserById(user.getId()).getAvatar();
+      this.uploadService.handleDeleteFile(pathAvatar);
       this.userService.deleteAUser(user.getId());
       String redirectUrl = "/admin/user";
       return "redirect:" + redirectUrl;

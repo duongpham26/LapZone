@@ -3,6 +3,10 @@ package com.duongpham26.LaptopShop.service;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,4 +47,9 @@ public class UploadService {
 		}
 		return pathAvatar;
    }
+
+	public void handleDeleteFile(String path)throws IOException {
+		Path fileToDeletePath = Paths.get(path);
+		Files.delete(fileToDeletePath);
+	}
 }

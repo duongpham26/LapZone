@@ -65,6 +65,12 @@
                                           <div class="col">${user.phone}</div>
                                         </div>
                                       </li>
+                                      <li class="list-group-item">
+                                       <div class="row">
+                                         <div class="col-6 font-weight-bold">Role:</div>
+                                         <div class="col">${user.role.name}</div>
+                                       </div>
+                                     </li>
                                     </ul>
                                     
                                 </div>
