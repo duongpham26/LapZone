@@ -16,27 +16,60 @@
          </head>
 
          <body class="sb-nav-fixed">
-            <jsp:include page = "../layout/header.jsp"/>
+            <jsp:include page="../layout/header.jsp" />
             <div id="layoutSidenav">
-               <jsp:include page = "../layout/sidebar.jsp" />
+               <jsp:include page="../layout/sidebar.jsp" />
                <div id="layoutSidenav_content">
                   <main>
                      <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
+                        <h1 class="mt-4">Manage Products</h1>
                         <ol class="breadcrumb mb-4">
                            <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                           <li class="breadcrumb-item active"></li>
+                           <li class="breadcrumb-item active">Products</li>
                         </ol>
-                        <div>Table product</div>
+                        <div class="container mt-5">
+                           <div class="d-flex justify-content-between">
+                              <h3 class="mb-0">Table Products</h3>
+                              <a class="btn btn-primary" href="/admin/product/create" role="button">Create Product</a>
+                           </div>
+                           <hr />
+
+                           <table class="table table-bordered table-hover align-middle text-center">
+                              <thead>
+                                 <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Factory</th>
+                                    <th scope="col">Action</th>
+                                 </tr>
+                              </thead>
+
+                              <tbody>
+                                 <!-- <c:forEach var="user" items="${users}">
+                                    <tr>
+                                       <th scope="row">${user.id}</th>
+                                       <td>${user.email}</td>
+                                       <td>${user.fullName}</td>
+                                       <td>${user.role.name}</td>
+                                       <td class="text-center">
+                                          <a href="/admin/user/${user.id}" class="btn btn-success">View</a>
+                                          <a href="/admin/user/update/${user.id}"
+                                             class="btn btn-warning mx-3">Update</a>
+                                          <a class="btn btn-danger" href="/admin/user/delete/${user.id}">Delete</a>
+                                       </td>
+                                    </tr>
+                                 </c:forEach> -->
+                              </tbody>
+                           </table>
+                        </div>
                      </div>
                   </main>
-                  <jsp:include page = "../layout/footer.jsp" />
+                  <jsp:include page="../layout/footer.jsp" />
                </div>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                crossorigin="anonymous"></script>
             <script src="js/scripts.js"></script>
-
          </body>
-
          </html>

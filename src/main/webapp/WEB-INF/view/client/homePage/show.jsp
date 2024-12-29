@@ -6,7 +6,7 @@
       
           <head>
               <meta charset="utf-8">
-              <title>Fruitables - Vegetable Website Template</title>
+              <title>Home - LaptopZone</title>
               <meta content="width=device-width, initial-scale=1.0" name="viewport">
               <meta content="" name="keywords">
               <meta content="" name="description">
@@ -81,7 +81,7 @@
                       <div class="tab-class text-center">
                           <div class="row g-4">
                               <div class="col-lg-4 text-start">
-                                  <h1>Our Organic Products</h1>
+                                  <h1>Featured Products</h1>
                               </div>
                               <div class="col-lg-8 text-end">
                                   <ul class="nav nav-pills d-inline-flex text-center mb-5">
