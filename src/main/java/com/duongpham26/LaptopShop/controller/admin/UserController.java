@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.service.UploadService;
 import com.duongpham26.LaptopShop.service.UserService;
+
+import jakarta.validation.Valid;
 
 // // Spring MVC
 @Controller
@@ -99,15 +103,31 @@ public class UserController {
    }
 
    @PostMapping(value = "admin/user/create")
-   public String doAddUser(@ModelAttribute("newUser")User user, @RequestParam("imageFile") MultipartFile file) {
-      String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
-      String password = this.passwordEncoder.encode(user.getPassword());
+   public String doAddUser(
+      Model model,
+      @ModelAttribute("newUser") @Valid User user,
+      BindingResult newUserBindingResult, 
+      @RequestParam("imageFile") MultipartFile file
+   ) {
+      List<FieldError> errors= newUserBindingResult.getFieldErrors();
 
-      user.setAvatar(avatar);
-      user.setPassword(password);
-      user.setRole(this.userService.getRoleByName(user.getRole().getName()));
+      for(FieldError error : errors) {
+         System.out.println(">>> " + error.getField() + " - " + error.getDefaultMessage() + "\n");
+      }
 
-      this.userService.handleSavaUser(user);
+      if(newUserBindingResult.hasErrors()) {
+
+         return "admin/user/create";
+      }
+
+      // String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+      // String password = this.passwordEncoder.encode(user.getPassword());
+
+      // user.setAvatar(avatar);
+      // user.setPassword(password);
+      // user.setRole(this.userService.getRoleByName(user.getRole().getName()));
+
+      // this.userService.handleSavaUser(user);
 
       String redirectUrl = "/admin/user";
       return "redirect:" + redirectUrl;

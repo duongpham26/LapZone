@@ -21,6 +21,7 @@ public class ProductController {
         model.addAttribute("newProduct", new Product());
         return "admin/product/create";
     }
+
    
 }
 

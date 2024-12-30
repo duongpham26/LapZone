@@ -3,6 +3,7 @@
       <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
          <!DOCTYPE html>
          <html lang="en">
+
          <head>
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -19,7 +20,7 @@
                   avatarFile.change(function (e) {
                      const imgURL = URL.createObjectURL(e.target.files[0]);
                      console.log(imgURL);
-                     
+
                      $("#avatarPreview").attr("src", imgURL);
                      $("#avatarPreview").css({ "display": "block" });
                   })
@@ -45,27 +46,43 @@
                               <div class="col-md-6 mb-3 mx-auto">
                                  <h2>Create a user</h2>
                                  <hr />
-                                 <form:form action="/admin/user/create" method="post" modelAttribute="newUser" enctype="multipart/form-data" class="row">
+                                 <form:form action="/admin/user/create" method="post" modelAttribute="newUser"
+                                    enctype="multipart/form-data" class="row">
                                     <div class="mb-3 col-md-6 col-12">
+                                       <c:set var="errorEmail">
+                                          <form:errors path="email" cssClass="invalid-feedback" />
+                                       </c:set>
                                        <form:label class="form-label" path="email">Email</form:label>
-                                       <form:input class="form-control" path="email" type="email" />
+                                       <form:input class="form-control ${not empty errorEmail ? 'is-invalid' : ''} "
+                                          path="email" />
+                                       ${errorEmail}
                                     </div>
-            
+
                                     <div class="mb-3 col-12 col-md-6">
+                                       <c:set var="errorPassword">
+                                          <form:errors path="password" cssClass="invalid-feedback" />
+                                       </c:set>
                                        <form:label class="form-label" path="password">Password</form:label>
-                                       <form:input class="form-control" path="password" type="password" />
+                                       <form:input class="form-control ${not empty errorPassword ? 'is-invalid' : ''}"
+                                          path="password" type="password" />
+                                       ${errorPassword}
                                     </div>
-                                   
+
                                     <div class="mb-3 col-md-6 col-12">
+                                       <c:set var="errorFullName">
+                                          <form:errors path="fullName" cssClass="invalid-feedback" />
+                                       </c:set>
                                        <form:label class="form-label" path="fullName">Full Name</form:label>
-                                       <form:input class="form-control" path="fullName" />
+                                       <form:input class="form-control  ${not empty errorFullName ? 'is-invalid' : ''}"
+                                          path="fullName" />
+                                       ${errorFullName}
                                     </div>
-            
+
                                     <div class="mb-3 col-md-6 col-12">
                                        <form:label class="form-label" path="phone">Phone</form:label>
                                        <form:input class="form-control" path="phone" />
                                     </div>
-            
+
                                     <div class="mb-3 col-12">
                                        <form:label class="form-label" path="address">Address</form:label>
                                        <form:input class="form-control" path="address" accept=".png, .jpg, jpeg" />
@@ -76,26 +93,28 @@
                                        <form:select class="form-select" path="role.name">
                                           <form:option value="ADMIN">ADMIN</form:option>
                                           <form:option value="USER">USER</form:option>
-                                        </form:select>
+                                       </form:select>
                                     </div>
 
                                     <div class="mb-3 col-12 col-md-6">
                                        <label for="avatarFile" class="form-label">Avatar</label>
-                                       <input class="form-control" type="file" id="avatarFile" accept=".png, .jpg, .jpeg" name="imageFile"/>
+                                       <input class="form-control" type="file" id="avatarFile"
+                                          accept=".png, .jpg, .jpeg" name="imageFile" />
                                     </div>
 
                                     <div class="mb-3 col-12">
-                                       <img src="" alt="Avatar preview" id="avatarPreview" style="display: none; max-width: 250px;">
+                                       <img src="" alt="Avatar preview" id="avatarPreview"
+                                          style="display: none; max-width: 250px;">
                                     </div>
-      
+
                                     <div class="mb-3 col-12">
                                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
                                     </div>
-            
+
                                  </form:form>
                               </div>
                            </div>
-            
+
                         </div>
                      </div>
                   </main>
@@ -106,4 +125,5 @@
                crossorigin="anonymous"></script>
             <script src="/js/scripts.js"></script>
          </body>
+
          </html>

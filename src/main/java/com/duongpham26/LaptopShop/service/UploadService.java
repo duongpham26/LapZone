@@ -23,6 +23,9 @@ public class UploadService {
    }
 
    public String handleSaveUploadFile(MultipartFile file, String folder) {
+		if(file.isEmpty()) {
+			return "";
+		}
 		String pathAvatar = null;
       if (!file.isEmpty()) {
 			try {
