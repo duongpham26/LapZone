@@ -120,14 +120,14 @@ public class UserController {
          return "admin/user/create";
       }
 
-      // String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
-      // String password = this.passwordEncoder.encode(user.getPassword());
+      String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+      String password = this.passwordEncoder.encode(user.getPassword());
 
-      // user.setAvatar(avatar);
-      // user.setPassword(password);
-      // user.setRole(this.userService.getRoleByName(user.getRole().getName()));
+      user.setAvatar(avatar);
+      user.setPassword(password);
+      user.setRole(this.userService.getRoleByName(user.getRole().getName()));
 
-      // this.userService.handleSavaUser(user);
+      this.userService.handleSavaUser(user);
 
       String redirectUrl = "/admin/user";
       return "redirect:" + redirectUrl;

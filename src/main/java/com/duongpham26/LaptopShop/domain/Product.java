@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name="products")
@@ -14,20 +16,33 @@ public class Product {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
+
+   @NotBlank(message = "Name is required")
    private String name;
+
+   @Positive(message = "Price must be greater than 0")
    private double price;
+
    private String image;
+
+   @NotBlank(message = "Detail Description is required")
    private String detailDesc;
+
+   @NotBlank(message = "Short Description is required")
    private String shortDesc;
+
+   @Positive(message = "Quantity must be greater than 0")
    private long quantity;
+
    private long sold;
+
    private String factory;
+
    private String target;
    
    // không cần thiết định nghĩa vì không cần quan tâm sản phẩm nằm trong đơn hàng nào 
    // @OneToMany(mappedBy = "product")
    // private List<OrderDetail> orderDetails;
-
 
    public long getId() {
       return id;

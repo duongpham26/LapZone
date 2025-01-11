@@ -52,7 +52,9 @@ public class UploadService {
    }
 
 	public void handleDeleteFile(String path)throws IOException {
-		Path fileToDeletePath = Paths.get(path);
-		Files.delete(fileToDeletePath);
+		if(!path.isEmpty()) {
+			Path fileToDeletePath = Paths.get(path);
+			Files.delete(fileToDeletePath);
+		}
 	}
 }
