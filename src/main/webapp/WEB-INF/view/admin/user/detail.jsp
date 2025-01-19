@@ -28,56 +28,56 @@
                            <li class="breadcrumb-item active">Users</li>
                         </ol>
                         <div class="container mt-5">
-                          <div class="row">
-                             <div class="col-md-6 mb-3 mx-auto">
-                                <div class="card" style="width: 100%;">
-                                   <div class="card-header">
-                                      <h2>User Details</h2>
-                                   </div>
-                                   <ul class="list-group list-group-flush">
-                                      <li class="list-group-item">
-                                        <div class="row">
-                                          <div class="col-6 font-weight-bold">ID:</div>
-                                          <div class="col">${user.id}</div>
-                                        </div>
-                                      </li>
-                                      <li class="list-group-item">
-                                        <div class="row">
-                                          <div class="col-6 font-weight-bold">Email:</div>
-                                          <div class="col">${user.email}</div>
-                                        </div>
-                                      </li>
-                                      <li class="list-group-item">
-                                        <div class="row">
-                                          <div class="col-6 font-weight-bold">Full Name:</div>
-                                          <div class="col">${user.fullName}</div>
-                                        </div>
-                                      </li>
-                                      <li class="list-group-item">
-                                        <div class="row">
-                                          <div class="col-6 font-weight-bold">Address:</div>
-                                          <div class="col">${user.address}</div>
-                                        </div>
-                                      </li>
-                                      <li class="list-group-item">
-                                        <div class="row">
-                                          <div class="col-6 font-weight-bold">Phone:</div>
-                                          <div class="col">${user.phone}</div>
-                                        </div>
-                                      </li>
-                                      <li class="list-group-item">
-                                       <div class="row">
-                                         <div class="col-6 font-weight-bold">Role:</div>
-                                         <div class="col">${user.role.name}</div>
-                                       </div>
-                                     </li>
+                           <div class="row">
+                              <div class="col-md-6 mb-3 mx-auto">
+                                 <div class="card" style="width: 100%;">
+                                    <div class="card-header">
+                                       <h2>User Details</h2>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                       <li class="list-group-item">
+                                          <div class="row">
+                                             <div class="col-6 font-weight-bold">ID:</div>
+                                             <div class="col">${user.id}</div>
+                                          </div>
+                                       </li>
+                                       <li class="list-group-item">
+                                          <div class="row">
+                                             <div class="col-6 font-weight-bold">Email:</div>
+                                             <div class="col">${user.email}</div>
+                                          </div>
+                                       </li>
+                                       <li class="list-group-item">
+                                          <div class="row">
+                                             <div class="col-6 font-weight-bold">Full Name:</div>
+                                             <div class="col">${user.fullName}</div>
+                                          </div>
+                                       </li>
+                                       <li class="list-group-item">
+                                          <div class="row">
+                                             <div class="col-6 font-weight-bold">Address:</div>
+                                             <div class="col">${user.address}</div>
+                                          </div>
+                                       </li>
+                                       <li class="list-group-item">
+                                          <div class="row">
+                                             <div class="col-6 font-weight-bold">Phone:</div>
+                                             <div class="col">${user.phone}</div>
+                                          </div>
+                                       </li>
+                                       <li class="list-group-item">
+                                          <div class="row">
+                                             <div class="col-6 font-weight-bold">Role:</div>
+                                             <div class="col">${user.role.name}</div>
+                                          </div>
+                                       </li>
                                     </ul>
-                                    
-                                </div>
-                                <a href="/admin/user" class="btn btn-primary mt-3 float-end">Back</a>
-                             </div>
-                          </div>
-                       </div>
+
+                                 </div>
+                                 <a href="/admin/user" class="btn btn-primary mt-3 float-end">Back</a>
+                              </div>
+                           </div>
+                        </div>
                      </div>
                   </main>
                   <jsp:include page="../layout/footer.jsp" />
@@ -85,6 +85,7 @@
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                crossorigin="anonymous"></script>
-            <script src="js/scripts.js"></script>
+            <script src="/js/scripts.js"></script>
          </body>
+
          </html>

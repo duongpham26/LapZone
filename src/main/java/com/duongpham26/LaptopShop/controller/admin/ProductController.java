@@ -2,7 +2,6 @@ package com.duongpham26.LaptopShop.controller.admin;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -68,6 +67,7 @@ public class ProductController {
         }
 
         String pathImageProduct = this.uploadService.handleSaveUploadFile(file, "product");
+
         product.setImage(pathImageProduct);
         this.productService.handleSavaProduct(product);
 
@@ -79,13 +79,14 @@ public class ProductController {
     public String getUpdateProductPage(@PathVariable long id, Model model) {
         Product currentProduct = this.productService.getProductById(id);
         model.addAttribute("updateProduct", currentProduct);
+        model.addAttribute("id", id);
         return "admin/product/update";
     }
 
     @PostMapping("/admin/product/update")
     public String postUpdateProduct(
         Model model, 
-        @ModelAttribute("newProduct") @Valid Product product,
+        @ModelAttribute("updateProduct") @Valid Product product,
         BindingResult newProductBindingResult
     ) {
         List<FieldError> errors = newProductBindingResult.getFieldErrors();
@@ -95,7 +96,7 @@ public class ProductController {
         }
 
         if (newProductBindingResult.hasErrors()) {
-            return "admin/product/create";
+            return "admin/product/update";
         }
 
         long id = product.getId();
@@ -127,7 +128,7 @@ public class ProductController {
     public String postDeleteProduct(@ModelAttribute("newProduct")Product product) throws IOException {
 
         String pathAvatar = this.productService.getProductById(product.getId()).getImage();
-        this.uploadService.handleDeleteFile(pathAvatar);
+        this.uploadService.handleDeleteFile(pathAvatar, "product");
         
         this.productService.deleteAProduct(product.getId());
         String redirectUrl = "/admin/product";
@@ -137,11 +138,8 @@ public class ProductController {
     @RequestMapping("/admin/product/{id}")
     public String getDetailProductPage(@PathVariable long id, Model model) {
         Product product = this.productService.getProductById(id);
-        File file = new File(product.getImage());
-        String fileName = file.getName();
 
         model.addAttribute("product", product);
-        model.addAttribute("fileName", fileName);
         
         return "admin/product/detail";
    }

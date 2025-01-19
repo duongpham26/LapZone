@@ -39,14 +39,14 @@
                                  <form:form action="/admin/user/delete" method="post" modelAttribute="newUser">
                                     <div class="mb-3 d-none">
                                        <form:label class="form-label" path="id">Id</form:label>
-                                       <form:input class="form-control" path="id" value="${id}"/>
+                                       <form:input class="form-control" path="id" value="${id}" />
                                     </div>
                                     <button type="submit" class="btn btn-danger">Confirm</button>
                                  </form:form>
                               </div>
                            </div>
                         </div>
-            
+
                      </div>
                   </main>
                   <jsp:include page="../layout/footer.jsp" />
@@ -54,6 +54,7 @@
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                crossorigin="anonymous"></script>
-            <script src="js/scripts.js"></script>
+            <script src="/js/scripts.js"></script>
          </body>
+
          </html>

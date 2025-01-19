@@ -46,30 +46,36 @@
                               <div class="col-md-6 mb-3 mx-auto">
                                  <h2>Update a user</h2>
                                  <hr />
-                                 <form:form action="/admin/user/update" method="post" modelAttribute="updateUser" class="row">
+                                 <form:form action="/admin/user/update" method="post" modelAttribute="updateUser"
+                                    class="row">
                                     <div class="mb-3 d-none">
                                        <form:label class="form-label" path="id">Id</form:label>
-                                       <form:input class="form-control" path="id" value="${id}"/>
+                                       <form:input class="form-control" path="id" />
                                     </div>
-            
+
                                     <div class="mb-3 col-12">
                                        <form:label class="form-label" path="email">Email</form:label>
-                                       <form:input class="form-control" path="email" type="email" disabled="true"/>
+                                       <form:input class="form-control" path="email" type="email" readonly="true" />
                                     </div>
-            
+
                                     <div class="mb-3 col-md-6 col-12">
+                                       <c:set var="fullNameError">
+                                          <form:errors path="fullName" cssClass="invalid-feedback" />
+                                       </c:set>
                                        <form:label class="form-label" path="fullName">Full Name</form:label>
-                                       <form:input class="form-control" path="fullName"/>
+                                       <form:input class="form-control ${not empty fullNameError ? 'is-invalid' : ''}"
+                                          path="fullName" />
+                                       ${fullNameError}
                                     </div>
-            
+
                                     <div class="mb-3 col-md-6 col-12">
                                        <form:label class="form-label" path="phone">Phone</form:label>
-                                       <form:input class="form-control" path="phone"/>
+                                       <form:input class="form-control" path="phone" />
                                     </div>
-            
+
                                     <div class="mb-3 col-md-6 col-12">
                                        <form:label class="form-label" path="address">Address</form:label>
-                                       <form:input class="form-control" path="address"/>
+                                       <form:input class="form-control" path="address" />
                                     </div>
 
                                     <div class="mb-3 col-12 col-md-6">
@@ -77,7 +83,7 @@
                                        <form:select class="form-select" path="role.name">
                                           <form:option value="ADMIN">ADMIN</form:option>
                                           <form:option value="USER">USER</form:option>
-                                        </form:select>
+                                       </form:select>
                                     </div>
 
                                     <!-- <div class="mb-3 col-12 col-md-6">
@@ -91,13 +97,13 @@
 
                                     <div class="mt-3">
                                        <button type="submit" class="btn btn-warning ">Update</button>
-                                       <a class="btn btn-success mx-3" href="/admin/user" >Exit</a>
+                                       <a class="btn btn-success mx-3" href="/admin/user">Exit</a>
                                     </div>
-            
+
                                  </form:form>
                               </div>
                            </div>
-            
+
                         </div>
                      </div>
                   </main>
@@ -106,6 +112,7 @@
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                crossorigin="anonymous"></script>
-            <script src="js/scripts.js"></script>
+            <script src="/js/scripts.js"></script>
          </body>
+
          </html>

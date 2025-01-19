@@ -73,9 +73,9 @@
                                           <form:errors path="detailDesc" cssClass="invalid-feedback" />
                                        </c:set>
                                        <form:label class="form-label" path="detailDesc">Detail Description</form:label>
-                                       <form:input
+                                       <form:textarea
                                           class="form-control  ${not empty detailDescError ? 'is-invalid' : ''}"
-                                          path="detailDesc" type="text" />
+                                          path="detailDesc" type="text" style="height: 100px;" />
                                        ${detailDescError}
                                     </div>
 
@@ -83,9 +83,10 @@
                                        <c:set var="shortDescError">
                                           <form:errors path="shortDesc" cssClass="invalid-feedback" />
                                        </c:set>
-                                       <form:label class="form-label" path="shortDesc">Short Description</form:label>
+                                       <form:label class="form-label" path="shortDesc">Short
+                                          Description</form:label>
                                        <form:input class="form-control  ${not empty shortDescError ? 'is-invalid' : ''}"
-                                          path="shortDesc" type="text" />
+                                          path="shortDesc" type="text-area" />
                                        ${shortDescError}
                                     </div>
 
@@ -104,14 +105,22 @@
                                        <form:select class="form-select" path="factory">
                                           <form:option value="APPLE">Apple (Macbook)</form:option>
                                           <form:option value="LENOVO">Lenovo</form:option>
+                                          <form:option value="ASUS">Asus</form:option>
+                                          <form:option value="HP">HP</form:option>
+                                          <form:option value="ACER">Acer</form:option>
+                                          <form:option value="MSI">MSI</form:option>
+                                          <form:option value="DELL">Dell</form:option>
+                                          <form:option value="MICROSOFT">Microsoft</form:option>
+                                          <form:option value="SONY VAIO">Sony VAIO</form:option>
                                        </form:select>
                                     </div>
 
                                     <div class="mb-3 col-12 col-md-6">
                                        <label class="form-label" path="target">Target</label>
                                        <form:select class="form-select" path="target">
-                                          <form:option value="APPLE">Apple (Macbook)</form:option>
-                                          <form:option value="LENOVO">Lenovo</form:option>
+                                          <form:option value="office">Office</form:option>
+                                          <form:option value="gaming">Gaming</form:option>
+                                          <form:option value="other">Other</form:option>
                                        </form:select>
                                     </div>
 

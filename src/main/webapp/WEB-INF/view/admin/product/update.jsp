@@ -14,17 +14,26 @@
             <link href="/css/styles.css" rel="stylesheet" />
             <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-            <!-- <script>
+            <script>
                $(document).ready(() => {
                   const avatarFile = $("#avatarFile");
+                  const orgImage = `${updateProduct.image}`;
+
+                  // console.log("orgImage", orgImage);
+
+                  if (orgImage) {
+                     const urlImage = "/images/product/" + orgImage;
+                     $("#avatarPreview").attr("src", urlImage);
+                     $("#avatarPreview").css({ "display": "block" });
+                  }
+
                   avatarFile.change(function (e) {
                      const imgURL = URL.createObjectURL(e.target.files[0]);
-                     console.log(imgURL);
-                     
+                     // console.log(imgURL);
                      $("#avatarPreview").attr("src", imgURL);
                      $("#avatarPreview").css({ "display": "block" });
                   })
-               }) -->
+               })
             </script>
          </head>
 
@@ -120,7 +129,7 @@
                                        </form:select>
                                     </div>
 
-                                    <!-- <div class="mb-3 col-12 col-md-6">
+                                    <div class="mb-3 col-12 col-md-6">
                                        <label for="avatarFile" class="form-label">Image</label>
                                        <input class="form-control" type="file" id="avatarFile"
                                           accept=".png, .jpg, .jpeg" name="imageFile" />
@@ -129,7 +138,7 @@
                                     <div class="mb-3 col-12">
                                        <img src="" alt="Avatar preview" id="avatarPreview"
                                           style="display: none; max-width: 250px;">
-                                    </div> -->
+                                    </div>
 
                                     <div class="mt-3">
                                        <button type="submit" class="btn btn-warning ">Update</button>
@@ -147,7 +156,7 @@
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                crossorigin="anonymous"></script>
-            <script src="js/scripts.js"></script>
+            <script src="/js/scripts.js"></script>
          </body>
 
          </html>

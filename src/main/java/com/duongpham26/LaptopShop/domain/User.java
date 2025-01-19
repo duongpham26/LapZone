@@ -11,7 +11,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -25,10 +24,10 @@ public class User {
    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
    private String email;
 
-   @Min(value = 3, message="Password must be at least 3 characters")
+   @NotEmpty(message = "password must be not empty")
    private String password;
 
-   @NotEmpty(message = "Full name cannot be blank")
+   @NotEmpty(message = "Full name cannot be empty")
    private String fullName;
 
    private String address;
@@ -44,8 +43,6 @@ public class User {
 
    @OneToMany(mappedBy = "user")
    private List<Order> orders;
-
-   
 
    public List<Order> getOrders() {
       return orders;

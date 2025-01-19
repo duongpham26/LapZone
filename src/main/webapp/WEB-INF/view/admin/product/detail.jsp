@@ -36,7 +36,7 @@
                                     </div>
                                     <ul class="list-group list-group-flush">
                                        <li class="list-group-item">
-                                          <img src="/images/product/${fileName}" alt="abc" srcset=""
+                                          <img src="/images/product/${product.image}" alt="abc" srcset=""
                                              style="max-width: 250px;">
                                        </li>
                                        <li class="list-group-item">
@@ -107,7 +107,7 @@
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
                crossorigin="anonymous"></script>
-            <script src="js/scripts.js"></script>
+            <script src="/js/scripts.js"></script>
          </body>
 
          </html>

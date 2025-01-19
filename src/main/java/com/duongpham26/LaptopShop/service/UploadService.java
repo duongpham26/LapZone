@@ -23,21 +23,28 @@ public class UploadService {
    }
 
    public String handleSaveUploadFile(MultipartFile file, String folder) {
+
 		if(file.isEmpty()) {
 			return "";
 		}
-		String pathAvatar = null;
+
+		String pathAvatar = "";
+		String nameFile = "";
+
       if (!file.isEmpty()) {
 			try {
 				String rootPath = this.servletContext.getRealPath("/resources/images");
 				byte[] bytes = file.getBytes();
+				
 				File dir = new File(rootPath + File.separator + folder);
 				if (!dir.exists())
 					dir.mkdirs();
 
 				// Create the file on server
-				pathAvatar = dir.getAbsolutePath()+ File.separator + System.currentTimeMillis() + "-" + file.getOriginalFilename();
+				nameFile = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+				pathAvatar = dir.getAbsolutePath() + File.separator + nameFile;
 				File serverFile = new File(pathAvatar);
+
             //uuid => tao id kh trung
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
@@ -48,12 +55,14 @@ public class UploadService {
 		} else {
 			// return "You failed to upload " + user + " because the file was empty.";
 		}
-		return pathAvatar;
+		return nameFile;
    }
 
-	public void handleDeleteFile(String path)throws IOException {
+	public void handleDeleteFile(String path, String folder) throws IOException {
 		if(!path.isEmpty()) {
-			Path fileToDeletePath = Paths.get(path);
+			String rootPath = this.servletContext.getRealPath("/resources/images");
+			String pathDelete = rootPath + "/" + folder + "/" + path;
+			Path fileToDeletePath = Paths.get(pathDelete);
 			Files.delete(fileToDeletePath);
 		}
 	}
