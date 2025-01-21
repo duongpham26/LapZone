@@ -18,7 +18,7 @@ public class Product {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
 
-   @NotBlank(message = "Name is required")
+   @NotBlank(message = "Name is required...")
    private String name;
 
    @Positive(message = "Price must be greater than 0")
