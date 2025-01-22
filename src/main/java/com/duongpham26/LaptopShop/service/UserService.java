@@ -6,20 +6,20 @@ import org.springframework.stereotype.Service;
 
 import com.duongpham26.LaptopShop.domain.Role;
 import com.duongpham26.LaptopShop.domain.User;
+import com.duongpham26.LaptopShop.domain.dto.RegisterDTO;
 import com.duongpham26.LaptopShop.repository.RoleRepository;
 import com.duongpham26.LaptopShop.repository.UserRepository;
 
 @Service
 public class UserService {
-   
-   private final UserRepository  userRepository;
+
+   private final UserRepository userRepository;
 
    private final RoleRepository roleRepository;
 
    public UserService(
-      UserRepository userRepository,
-      RoleRepository roleRepository 
-   ) {
+         UserRepository userRepository,
+         RoleRepository roleRepository) {
       this.userRepository = userRepository;
       this.roleRepository = roleRepository;
    }
@@ -50,5 +50,15 @@ public class UserService {
 
    public Role getRoleByName(String name) {
       return this.roleRepository.findByName(name);
+   }
+
+   public User registerDTOToUser(RegisterDTO registerDTO) {
+      User user = new User();
+
+      user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
+      user.setEmail(registerDTO.getEmail());
+      user.setPassword(registerDTO.getPassword());
+
+      return user;
    }
 }

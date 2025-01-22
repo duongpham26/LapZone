@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 // // Spring MVC
 @Controller
 public class UserController {
-   
+
    private final UserService userService;
 
    private final UploadService uploadService;
@@ -33,10 +33,9 @@ public class UserController {
    private final PasswordEncoder passwordEncoder;
 
    public UserController(
-         UserService userService, 
+         UserService userService,
          UploadService uploadService,
-         PasswordEncoder passwordEncoder
-      ) {
+         PasswordEncoder passwordEncoder) {
       this.userService = userService;
       this.uploadService = uploadService;
       this.passwordEncoder = passwordEncoder;
@@ -45,7 +44,7 @@ public class UserController {
    @GetMapping("/user")
    public String getHomePage(Model model) {
       List<User> arrUser = this.userService.getAllUsersByEmail("duong.pham2617@gmail.com");
-      System.out.println("Array user : " + arrUser);
+      // System.out.println("Array user : " + arrUser);
       String text = this.userService.handleHello();
       model.addAttribute("text", text);
       return "hello";
@@ -84,27 +83,26 @@ public class UserController {
    public String postUpdateUser(
          Model model,
          @ModelAttribute("updateUser") @Valid User user,
-         BindingResult newUserBindingResult
-   ) {
+         BindingResult newUserBindingResult) {
 
       System.out.println("updateUser" + user);
 
-      List<FieldError> errors= newUserBindingResult.getFieldErrors();
+      List<FieldError> errors = newUserBindingResult.getFieldErrors();
 
       int flag = 0;
-      for(FieldError error : errors) {
+      for (FieldError error : errors) {
          System.out.println(">>> " + error.getField() + " - " + error.getDefaultMessage() + "\n");
          flag++;
       }
 
-      if(newUserBindingResult.hasErrors() && flag > 1) {
+      if (newUserBindingResult.hasErrors() && flag > 1) {
          return "admin/user/update";
       }
 
       long id = user.getId();
       User currentUser = this.userService.getUserById(id);
 
-      if(currentUser != null) {
+      if (currentUser != null) {
          currentUser.setFullName(user.getFullName());
          currentUser.setAddress(user.getAddress());
          currentUser.setPhone(user.getPhone());
@@ -119,18 +117,17 @@ public class UserController {
 
    @PostMapping(value = "admin/user/create")
    public String doAddUser(
-      Model model,
-      @ModelAttribute("newUser") @Valid User user,
-      BindingResult newUserBindingResult, 
-      @RequestParam("imageFile") MultipartFile file
-   ) {
-      List<FieldError> errors= newUserBindingResult.getFieldErrors();
+         Model model,
+         @ModelAttribute("newUser") @Valid User user,
+         BindingResult newUserBindingResult,
+         @RequestParam("imageFile") MultipartFile file) {
 
-      for(FieldError error : errors) {
+      List<FieldError> errors = newUserBindingResult.getFieldErrors();
+      for (FieldError error : errors) {
          System.out.println(">>> " + error.getField() + " - " + error.getDefaultMessage() + "\n");
       }
 
-      if(newUserBindingResult.hasErrors()) {
+      if (newUserBindingResult.hasErrors()) {
          return "admin/user/create";
       }
 
@@ -154,9 +151,8 @@ public class UserController {
       return "/admin/user/delete";
    }
 
-   
    @PostMapping("admin/user/delete")
-   public String postDeleteUser(@ModelAttribute("newUser")User user) throws IOException {
+   public String postDeleteUser(@ModelAttribute("newUser") User user) throws IOException {
       String pathAvatar = this.userService.getUserById(user.getId()).getAvatar();
       this.uploadService.handleDeleteFile(pathAvatar, "avatar");
       this.userService.deleteAUser(user.getId());
@@ -168,15 +164,15 @@ public class UserController {
 // Rest API
 // @RestController
 // public class UserController {
-   
-//    private UserService userService;
 
-//    public UserController(UserService userService) {
-//       this.userService = userService;
-//    }
+// private UserService userService;
 
-//    @GetMapping("/")
-//    public String getHomePage() {
-//       return this.userService.handleHello();
-//    }
+// public UserController(UserService userService) {
+// this.userService = userService;
+// }
+
+// @GetMapping("/")
+// public String getHomePage() {
+// return this.userService.handleHello();
+// }
 // }

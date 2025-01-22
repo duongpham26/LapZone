@@ -2,23 +2,39 @@ package com.duongpham26.LaptopShop.controller.client;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.duongpham26.LaptopShop.domain.Product;
-import com.duongpham26.LaptopShop.domain.RegisterDTO;
+import com.duongpham26.LaptopShop.domain.User;
+import com.duongpham26.LaptopShop.domain.dto.RegisterDTO;
 import com.duongpham26.LaptopShop.service.ProductService;
+import com.duongpham26.LaptopShop.service.UserService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class HomePageController {
 
     private final ProductService productService;
 
-    public HomePageController(ProductService productService) {
+    private final UserService userService;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public HomePageController(
+            ProductService productService,
+            UserService userService,
+            PasswordEncoder passwordEncoder) {
         this.productService = productService;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
@@ -35,8 +51,27 @@ public class HomePageController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(@ModelAttribute("registerUser") RegisterDTO registerDTO) {
+    public String handleRegister(@ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
+            BindingResult newBindingResult) {
 
-        return "client/auth/register";
+        List<FieldError> errors = newBindingResult.getFieldErrors();
+        for (FieldError error : errors) {
+            System.out.println(">>> " + error.getField() + " - " + error.getDefaultMessage() + "\n");
+        }
+
+        // User user = this.userService.registerDTOToUser(registerDTO);
+        // String password = this.passwordEncoder.encode(user.getPassword());
+
+        // user.setPassword(password);
+        // user.setRole(this.userService.getRoleByName("USER"));
+        // this.userService.handleSavaUser(user);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String getLoginPage(Model model) {
+
+        return "client/auth/login";
     }
 }

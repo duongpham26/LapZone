@@ -1,5 +1,8 @@
-package com.duongpham26.LaptopShop.domain;
+package com.duongpham26.LaptopShop.domain.dto;
 
+import com.duongpham26.LaptopShop.service.validator.RegisterDTOChecked;
+
+@RegisterDTOChecked
 public class RegisterDTO {
     private String firstName;
     private String lastName;
