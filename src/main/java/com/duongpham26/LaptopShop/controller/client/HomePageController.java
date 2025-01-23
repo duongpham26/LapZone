@@ -51,20 +51,28 @@ public class HomePageController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(@ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
+    public String handleRegister(
+            Model model,
+            @ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
             BindingResult newBindingResult) {
 
-        List<FieldError> errors = newBindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(">>> " + error.getField() + " - " + error.getDefaultMessage() + "\n");
+        // List<FieldError> errors = newBindingResult.getFieldErrors();
+        // for (FieldError error : errors) {
+        // System.out.println(">>> " + error.getField() + " - " +
+        // error.getDefaultMessage() + "\n");
+        // }
+
+        if (newBindingResult.hasErrors()) {
+            return "client/auth/register";
         }
 
-        // User user = this.userService.registerDTOToUser(registerDTO);
-        // String password = this.passwordEncoder.encode(user.getPassword());
+        User user = this.userService.registerDTOToUser(registerDTO);
+        String password = this.passwordEncoder.encode(user.getPassword());
 
-        // user.setPassword(password);
-        // user.setRole(this.userService.getRoleByName("USER"));
-        // this.userService.handleSavaUser(user);
+        user.setPassword(password);
+        user.setRole(this.userService.getRoleByName("USER"));
+
+        this.userService.handleSavaUser(user);
 
         return "redirect:/login";
     }

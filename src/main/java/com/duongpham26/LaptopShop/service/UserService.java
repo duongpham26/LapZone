@@ -53,6 +53,7 @@ public class UserService {
    }
 
    public User registerDTOToUser(RegisterDTO registerDTO) {
+
       User user = new User();
 
       user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
@@ -60,5 +61,9 @@ public class UserService {
       user.setPassword(registerDTO.getPassword());
 
       return user;
+   }
+
+   public boolean checkEmailExist(String email) {
+      return this.userRepository.existsByEmail(email);
    }
 }
