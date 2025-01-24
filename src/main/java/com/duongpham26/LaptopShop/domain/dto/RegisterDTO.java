@@ -2,12 +2,23 @@ package com.duongpham26.LaptopShop.domain.dto;
 
 import com.duongpham26.LaptopShop.service.validator.RegisterDTOChecked;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+
 @RegisterDTOChecked
 public class RegisterDTO {
+
+    @Size(min = 3, message = "First name must be at least 3 characters")
     private String firstName;
+
     private String lastName;
+
+    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
+
     private String password;
+
+    @Size(min = 3, message = "confirmPassword must be at least 3 characters")
     private String confirmPassword;
 
     public String getFirstName() {
