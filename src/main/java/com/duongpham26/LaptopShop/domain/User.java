@@ -26,7 +26,7 @@ public class User {
    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
    private String email;
 
-   @StrongPassword(message = "password must be at least 8 characters")
+   // @StrongPassword(message = "password must be at least 8 characters")
    @NotEmpty(message = "password must be not empty")
    private String password;
 
