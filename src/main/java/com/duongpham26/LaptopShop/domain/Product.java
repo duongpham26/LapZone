@@ -41,7 +41,8 @@ public class Product {
 
    private String target;
 
-   // không cần thiết định nghĩa vì không cần quan tâm sản phẩm nằm trong đơn hàng nào
+   // không cần thiết định nghĩa vì không cần quan tâm sản phẩm nằm trong đơn hàng
+   // nào
    // @OneToMany(mappedBy = "product")
    // private List<OrderDetail> orderDetails;
 
