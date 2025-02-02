@@ -31,9 +31,10 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
                                         <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
-                                            <img src="" alt="image" />
+                                            <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
+                                                src="/images/avatar/${avatar}" alt="image" />
                                             <div class="text-center my-3">
-                                                <c:out value="${pageContext.request.userPrincipal.name}" />
+                                                <c:out value="${sessionScope.fullName}" />
                                             </div>
                                         </li>
                                         <li> <a href="#" class="dropdown-item">Quản lí tài khoản</a></li>

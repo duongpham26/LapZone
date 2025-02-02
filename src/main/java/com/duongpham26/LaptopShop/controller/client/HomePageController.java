@@ -1,5 +1,6 @@
 package com.duongpham26.LaptopShop.controller.client;
 
+import java.net.http.HttpRequest;
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,8 @@ import com.duongpham26.LaptopShop.domain.dto.RegisterDTO;
 import com.duongpham26.LaptopShop.service.ProductService;
 import com.duongpham26.LaptopShop.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -37,9 +40,12 @@ public class HomePageController {
     }
 
     @GetMapping("/")
-    public String getHomePage(Model model) {
+    public String getHomePage(Model model, HttpServletRequest request) {
         List<Product> products = this.productService.getAllProducts();
         model.addAttribute("products", products);
+
+        HttpSession session = request.getSession(false);
+
         return "client/homePage/show";
     }
 

@@ -108,12 +108,9 @@
                                         <div class="row g-4">
                                             <div class="col-lg-12">
                                                 <div class="row g-4">
-
-
-
                                                     <c:forEach var="product" items="${products}">
                                                         <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
+                                                            <div class="rounded position-relative fruite-item border">
                                                                 <div class="fruite-img">
                                                                     <img src="/images/product/${product.image}"
                                                                         class="img-fluid w-90 rounded-top" alt="">
@@ -121,8 +118,7 @@
                                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
                                                                     style="top: 10px; left: 10px;">${product.factory}
                                                                 </div>
-                                                                <div
-                                                                    class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <div class="p-4 rounded-bottom">
                                                                     <p style="font-size: 15px; font-weight: bold;"
                                                                         class="mb-1">
                                                                         <a
