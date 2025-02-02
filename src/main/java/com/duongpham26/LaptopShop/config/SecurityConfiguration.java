@@ -10,6 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices.RememberMeTokenAlgorithm;
+import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import com.duongpham26.LaptopShop.service.CustomUserDetailsService;
 import com.duongpham26.LaptopShop.service.UserService;
@@ -48,6 +52,14 @@ public class SecurityConfiguration {
    }
 
    @Bean
+   public SpringSessionRememberMeServices rememberMeServices() {
+      SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
+      // optionally customize
+      rememberMeServices.setAlwaysRemember(true);
+      return rememberMeServices;
+   }
+
+   @Bean
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
       http
             .authorizeHttpRequests(authorize -> authorize
@@ -61,7 +73,8 @@ public class SecurityConfiguration {
                   .failureUrl("/login?error")
                   .successHandler(CustomSuccessHandler())
                   .permitAll())
-            .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"));
+            .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"))
+            .rememberMe(rememberMe -> rememberMe.rememberMeServices(rememberMeServices()));
       return http.build();
    }
 }
