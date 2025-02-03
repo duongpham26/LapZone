@@ -12,7 +12,6 @@ import com.duongpham26.LaptopShop.repository.CartDetailRepository;
 import com.duongpham26.LaptopShop.repository.CartRepository;
 import com.duongpham26.LaptopShop.repository.ProductRepository;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Service

@@ -9,4 +9,6 @@ import com.duongpham26.LaptopShop.domain.User;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
     Cart findByUser(User user);
+
+    Cart findByUserId(long id);
 }
