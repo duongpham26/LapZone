@@ -52,11 +52,9 @@
                     <!-- Navbar End -->
 
                     <!-- banner start -->
-                    <jsp:include page="../layout/banner.jsp" />
                     <!-- banner end -->
 
                     <!-- Featurs Section Start -->
-                    <jsp:include page="../layout/feature.jsp" />
                     <!-- Featurs Section End -->
 
 
@@ -140,12 +138,12 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="mt-5 row justify-content-start g-4">
+                            <!-- <div class="mt-5 row justify-content-start g-4">
                                 <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4"
                                     placeholder="Coupon Code">
                                 <button class="btn border-secondary rounded-pill px-4 py-3 text-primary"
                                     type="button">Apply Coupon</button>
-                            </div>
+                            </div> -->
                             <div class="mt-5 row g-4 justify-content-start">
                                 <div class="col-md-8 col-12">
                                     <div class="bg-light rounded">
@@ -167,11 +165,11 @@
                                         </div>
                                         <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                             <h5 class="mb-0 ps-4 me-4">Total</h5>
-                                            <p class="mb-0 pe-4">
-                                            <p class="mb-0">
-                                                <fmt:formatNumber type="number" value="${totalPrice}" /> VND
-                                            </p>
-                                            </p>
+                                            <div class="mb-0 pe-4">
+                                                <p class="mb-0">
+                                                    <fmt:formatNumber type="number" value="${totalPrice}" /> VND
+                                                </p>
+                                            </div>
                                         </div>
                                         <button
                                             class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
