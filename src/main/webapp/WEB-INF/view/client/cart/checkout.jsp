@@ -65,7 +65,7 @@
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Cart Detail</li>
+                                        <li class="breadcrumb-item active" aria-current="page">Payment Information</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -78,7 +78,6 @@
                                             <th scope="col">Price</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Total</th>
-                                            <th scope="col">Handle</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -104,12 +103,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="input-group quantity mt-4" style="width: 100px;">
-                                                        <div class="input-group-btn">
-                                                            <button
-                                                                class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
-                                                        </div>
+
                                                         <input type="text"
                                                             class="form-control form-control-sm text-center border-0"
                                                             value="${product.quantity}"
@@ -117,12 +111,6 @@
                                                             data-cart-detail-price="${product.price}"
                                                             data-cart-detail-index="${status.index}">
 
-                                                        <div class="input-group-btn">
-                                                            <button
-                                                                class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -131,42 +119,59 @@
                                                             value="${product.price * product.quantity}" /> VND
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <form action="/delete-cart-product/${product.id}" method="post">
-                                                        <input type="hidden" name="${_csrf.parameterName}"
-                                                            value="${_csrf.token}" />
-                                                        <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                                            <i class="fa fa-times text-danger"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
+
                                             </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- <div class="mt-5 row justify-content-start g-4">
-                                <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4"
-                                    placeholder="Coupon Code">
-                                <button class="btn border-secondary rounded-pill px-4 py-3 text-primary"
-                                    type="button">Apply Coupon</button>
-                            </div> -->
-                            <div class="mt-5 row g-4 justify-content-start">
-                                <div class="col-md-8 col-12">
+                            <div class="justify-content-between row ">
+                                <div class="col-md-6 col-12">
+                                    <div class="p-4">
+                                        <c:if test="${not empty products}">
+                                            <form:form id="confirmPayment" action="/place-order" method="post"
+                                                modelAttribute="cart">
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
+                                                <h5>Recipient information</h5>
+                                                <div class="row">
+                                                    <div class="col-12 form-group mb-3">
+                                                        <label>Name</label>
+                                                        <input class="form-control" name="receiverName" required />
+                                                    </div>
+                                                    <div class="col-12 form-group mb-3">
+                                                        <label>Address</label>
+                                                        <input class="form-control" name="receiverAddress" required />
+                                                    </div>
+                                                    <div class="col-12 form-group mb-3">
+                                                        <label>Phone</label>
+                                                        <input class="form-control" name="receiverPhone" required />
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <i class="fas fa-arrow-left"></i>
+                                                        <a href="/cart">Back to cart</a>
+                                                    </div>
+                                                </div>
+                                            </form:form>
+                                        </c:if>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 col-12 mt-4">
                                     <div class="bg-light rounded">
                                         <div class="p-4">
-                                            <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
+                                            <h1 class="display-6 mb-4">Payment Information</h1>
                                             <div class="d-flex justify-content-between mb-4">
-                                                <h5 class="mb-0 me-4">Subtotal:</h5>
-                                                <p class="mb-0" data-cart-total-price="${totalPrice}">
-                                                    <fmt:formatNumber type="number" value="${totalPrice}" /> VND
-                                                </p>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
                                                 <h5 class="mb-0 me-4">Shipping</h5>
                                                 <div class="">
-                                                    <p class="mb-0">Flat rate: 0 VND</p>
+                                                    <p class="mb-0">0 VND</p>
                                                 </div>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between mb-4">
+                                                <h5 class="mb-0 me-4">Shipping method</h5>
+                                                <p class="mb-0">Cash on Delivery (COD)</p>
                                             </div>
                                             <!-- <p class="mb-0 text-end">Shipping to Ukraine.</p> -->
                                         </div>
@@ -178,83 +183,61 @@
                                                 </p>
                                             </div>
                                         </div>
-
-                                        <form:form action="/confirm-checkout" method="post" modelAttribute="cart">
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                            <div style="display: block;">
-                                                <c:forEach var="cartDetail" items="${cart.cartDetails}"
-                                                    varStatus="status">
-                                                    <div class="mb-3">
-                                                        <div class="form-group">
-                                                            <label>Id:</label>
-                                                            <form:input class="form-control" type="text"
-                                                                value="${cartDetail.id}"
-                                                                path="cartDetails[${status.index}].id" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Quantity:</label>
-                                                            <form:input class="form-control" type="text"
-                                                                value="${cartDetail.quantity}"
-                                                                path="cartDetails[${status.index}].quantity" />
-                                                        </div>
-                                                    </div>
-                                                </c:forEach>
-                                            </div>
-                                            <button
-                                                class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-                                                type="submit">Proceed Checkout</button>
-                                        </form:form>
+                                        <button
+                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+                                            type="submit" form="confirmPayment">Payment Confirmation</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Fruits Shop End-->
+                        <!-- Fruits Shop End-->
 
 
-                    <!-- Footer Start -->
-                    <jsp:include page="../layout/footer.jsp" />
-                    <!-- Footer End -->
+                        <!-- Footer Start -->
+                        <jsp:include page="../layout/footer.jsp" />
+                        <!-- Footer End -->
 
-                    <!-- Copyright Start -->
-                    <div class="container-fluid copyright bg-dark py-4">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                                    <span class="text-light"><a href="#"><i
-                                                class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All
-                                        right
-                                        reserved.</span>
-                                </div>
-                                <div class="col-md-6 my-auto text-center text-md-end text-white">
-                                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
-                                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
-                                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                        <!-- Copyright Start -->
+                        <div class="container-fluid copyright bg-dark py-4">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                                        <span class="text-light"><a href="#"><i
+                                                    class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All
+                                            right
+                                            reserved.</span>
+                                    </div>
+                                    <div class="col-md-6 my-auto text-center text-md-end text-white">
+                                        <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                                        <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                                        <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                                        Distributed By <a class="border-bottom"
+                                            href="https://themewagon.com">ThemeWagon</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Copyright End -->
+                        <!-- Copyright End -->
 
 
 
-                    <!-- Back to Top -->
-                    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
-                            class="fa fa-arrow-up"></i></a>
+                        <!-- Back to Top -->
+                        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
+                                class="fa fa-arrow-up"></i></a>
 
 
-                    <!-- JavaScript Libraries -->
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-                    <script src="/client/lib/easing/easing.min.js"></script>
-                    <script src="/client/lib/waypoints/waypoints.min.js"></script>
-                    <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
-                    <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
+                        <!-- JavaScript Libraries -->
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                        <script
+                            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+                        <script src="/client/lib/easing/easing.min.js"></script>
+                        <script src="/client/lib/waypoints/waypoints.min.js"></script>
+                        <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
+                        <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
 
-                    <!-- Template Javascript -->
-                    <script src="/client/js/main.js"></script>
+                        <!-- Template Javascript -->
+                        <script src="/client/js/main.js"></script>
                 </body>
 
                 </html>

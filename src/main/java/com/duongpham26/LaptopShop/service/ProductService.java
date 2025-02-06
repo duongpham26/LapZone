@@ -1,6 +1,7 @@
 package com.duongpham26.LaptopShop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -87,6 +88,40 @@ public class ProductService {
                oldCartDetail.setQuantity(oldCartDetail.getQuantity() + 1);
                this.cartDetailRepository.save(oldCartDetail);
             }
+         }
+      }
+   }
+
+   public void handleRemoveCartDetail(long cartDetailId, HttpSession session) {
+      Optional<CartDetail> cartDetailOptional = this.cartDetailRepository.findById(cartDetailId);
+      if (cartDetailOptional.isPresent()) {
+         CartDetail cartDetail = cartDetailOptional.get();
+
+         Cart currentCart = cartDetail.getCart();
+
+         // delete cart detail
+         this.cartDetailRepository.deleteById(cartDetailId);
+
+         // update cart
+         if (currentCart.getSum() > 1) {
+            int s = currentCart.getSum() - 1;
+            currentCart.setSum(s);
+            session.setAttribute("sum", s);
+            this.cartRepository.save(currentCart);
+         } else {
+            this.cartRepository.deleteById(currentCart.getId());
+            session.setAttribute("sum", 0);
+         }
+      }
+   }
+
+   public void handleUpdateCartBeforeCheckout(List<CartDetail> cartDetails) {
+      for (CartDetail cartDetail : cartDetails) {
+         Optional<CartDetail> cdOptional = this.cartDetailRepository.findById(cartDetail.getId());
+         if (cdOptional.isPresent()) {
+            CartDetail currentDetail = cdOptional.get();
+            currentDetail.setQuantity(cartDetail.getQuantity());
+            this.cartDetailRepository.save(currentDetail);
          }
       }
    }
