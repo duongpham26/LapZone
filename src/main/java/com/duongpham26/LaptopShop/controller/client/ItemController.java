@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.duongpham26.LaptopShop.domain.Cart;
 import com.duongpham26.LaptopShop.domain.CartDetail;
+import com.duongpham26.LaptopShop.domain.Order;
 import com.duongpham26.LaptopShop.domain.Product;
+import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.service.CartService;
 import com.duongpham26.LaptopShop.service.ProductService;
 
@@ -109,7 +111,17 @@ public class ItemController {
          @RequestParam("receiverPhone") String receiverPhone,
          HttpServletRequest request) {
       HttpSession session = request.getSession(false);
+      User user = new User();
 
-      return "redirect:/";
+      long id = (long) session.getAttribute("id");
+      user.setId(id);
+
+      this.productService.handlePlaceOrder(user, session, receiverName, receiverAddress, receiverPhone);
+      return "redirect:/thanks";
+   }
+
+   @GetMapping("/thanks")
+   public String getPageThanks() {
+      return "client/cart/thanks";
    }
 }

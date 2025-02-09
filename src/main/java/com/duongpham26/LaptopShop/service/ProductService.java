@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.duongpham26.LaptopShop.domain.Cart;
 import com.duongpham26.LaptopShop.domain.CartDetail;
+import com.duongpham26.LaptopShop.domain.Order;
+import com.duongpham26.LaptopShop.domain.OrderDetail;
 import com.duongpham26.LaptopShop.domain.Product;
 import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.repository.CartDetailRepository;
 import com.duongpham26.LaptopShop.repository.CartRepository;
+import com.duongpham26.LaptopShop.repository.OrderDetailRepository;
+import com.duongpham26.LaptopShop.repository.OrderRepository;
 import com.duongpham26.LaptopShop.repository.ProductRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,15 +30,23 @@ public class ProductService {
 
    private final UserService userService;
 
+   private final OrderRepository orderRepository;
+
+   private final OrderDetailRepository orderDetailRepository;
+
    public ProductService(
          ProductRepository productRepository,
          CartRepository cartRepository,
          UserService userService,
-         CartDetailRepository cartDetailRepository) {
+         CartDetailRepository cartDetailRepository,
+         OrderRepository orderRepository,
+         OrderDetailRepository orderDetailRepository) {
       this.productRepository = productRepository;
       this.cartRepository = cartRepository;
       this.userService = userService;
       this.cartDetailRepository = cartDetailRepository;
+      this.orderDetailRepository = orderDetailRepository;
+      this.orderRepository = orderRepository;
    }
 
    public List<Product> getAllProducts() {
@@ -122,6 +134,48 @@ public class ProductService {
             CartDetail currentDetail = cdOptional.get();
             currentDetail.setQuantity(cartDetail.getQuantity());
             this.cartDetailRepository.save(currentDetail);
+         }
+      }
+   }
+
+   public void handlePlaceOrder(User user, HttpSession session, String receiverName, String receiverAddress,
+         String receiverPhone) {
+
+      // create order
+      Order order = new Order();
+      order.setReceiverName(receiverName);
+      order.setReceiverAddress(receiverAddress);
+      order.setReceiverPhone(receiverPhone);
+      order.setUser(user);
+
+      order = this.orderRepository.save(order);
+
+      // create order detail
+      // 1. get cart by user
+      Cart cart = this.cartRepository.findByUser(user);
+      double totalPrice = 0;
+      if (cart != null) {
+         List<CartDetail> cartDetails = cart.getCartDetails();
+         if (cartDetails != null) {
+            for (CartDetail cartDetail : cartDetails) {
+               totalPrice += cartDetail.getPrice() * cartDetail.getQuantity();
+
+               OrderDetail orderDetail = new OrderDetail();
+               orderDetail.setOrder(order);
+               orderDetail.setProduct(cartDetail.getProduct());
+               orderDetail.setPrice(cartDetail.getPrice());
+               orderDetail.setQuantity(cartDetail.getQuantity());
+               this.orderDetailRepository.save(orderDetail);
+
+               // delete cart detail
+               this.cartDetailRepository.deleteById(cartDetail.getId());
+            }
+
+            // delete cart
+            this.cartRepository.deleteById(cart.getId());
+
+            // update session
+            session.setAttribute("sum", 0);
          }
       }
    }
