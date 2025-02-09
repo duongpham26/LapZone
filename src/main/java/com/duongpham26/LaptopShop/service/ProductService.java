@@ -141,25 +141,29 @@ public class ProductService {
    public void handlePlaceOrder(User user, HttpSession session, String receiverName, String receiverAddress,
          String receiverPhone) {
 
-      // create order
-      Order order = new Order();
-      order.setReceiverName(receiverName);
-      order.setReceiverAddress(receiverAddress);
-      order.setReceiverPhone(receiverPhone);
-      order.setUser(user);
-
-      order = this.orderRepository.save(order);
-
-      // create order detail
-      // 1. get cart by user
       Cart cart = this.cartRepository.findByUser(user);
-      double totalPrice = 0;
       if (cart != null) {
          List<CartDetail> cartDetails = cart.getCartDetails();
          if (cartDetails != null) {
-            for (CartDetail cartDetail : cartDetails) {
-               totalPrice += cartDetail.getPrice() * cartDetail.getQuantity();
+            // create order
+            Order order = new Order();
+            order.setReceiverName(receiverName);
+            order.setReceiverAddress(receiverAddress);
+            order.setReceiverPhone(receiverPhone);
+            order.setUser(user);
+            order.setStatus("PENDING");
 
+            double sum = 0;
+            for (CartDetail cartDetail : cartDetails) {
+               sum += cartDetail.getPrice();
+            }
+
+            order.setTotalPrice(sum);
+            order = this.orderRepository.save(order);
+
+            // create order detail
+            // 1. get cart by user
+            for (CartDetail cartDetail : cartDetails) {
                OrderDetail orderDetail = new OrderDetail();
                orderDetail.setOrder(order);
                orderDetail.setProduct(cartDetail.getProduct());
@@ -178,5 +182,6 @@ public class ProductService {
             session.setAttribute("sum", 0);
          }
       }
+
    }
 }
