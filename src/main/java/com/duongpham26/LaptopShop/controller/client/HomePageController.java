@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.duongpham26.LaptopShop.domain.Order;
 import com.duongpham26.LaptopShop.domain.Product;
 import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.domain.dto.RegisterDTO;
+import com.duongpham26.LaptopShop.service.OrderService;
 import com.duongpham26.LaptopShop.service.ProductService;
 import com.duongpham26.LaptopShop.service.UserService;
 
@@ -30,13 +32,17 @@ public class HomePageController {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final OrderService orderService;
+
     public HomePageController(
             ProductService productService,
             UserService userService,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.orderService = orderService;
     }
 
     @GetMapping("/")
@@ -90,5 +96,19 @@ public class HomePageController {
     @GetMapping("/access-deny")
     public String getPageAccessDeny(Model model) {
         return "client/auth/deny";
+    }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        User user = new User();
+
+        long id = (long) session.getAttribute("id");
+        user.setId(id);
+        List<Order> orders = this.orderService.fetchOrdersByUser(user);
+
+        model.addAttribute("orders", orders);
+
+        return "client/cart/order-history";
     }
 }

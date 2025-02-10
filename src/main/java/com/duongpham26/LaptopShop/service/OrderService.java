@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.duongpham26.LaptopShop.domain.Order;
 import com.duongpham26.LaptopShop.domain.OrderDetail;
+import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.repository.OrderDetailRepository;
 import com.duongpham26.LaptopShop.repository.OrderRepository;
 
@@ -51,5 +52,9 @@ public class OrderService {
 
     public Optional<Order> fetchOrderById(long id) {
         return this.orderRepository.findById(id);
+    }
+
+    public List<Order> fetchOrdersByUser(User user) {
+        return this.orderRepository.findByUser(user);
     }
 }
