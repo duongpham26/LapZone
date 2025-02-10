@@ -155,7 +155,7 @@ public class ProductService {
 
             double sum = 0;
             for (CartDetail cartDetail : cartDetails) {
-               sum += cartDetail.getPrice();
+               sum += (cartDetail.getPrice() * cartDetail.getQuantity());
             }
 
             order.setTotalPrice(sum);
