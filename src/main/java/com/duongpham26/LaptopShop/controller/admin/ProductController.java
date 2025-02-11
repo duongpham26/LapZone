@@ -3,6 +3,9 @@ package com.duongpham26.LaptopShop.controller.admin;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,8 +40,16 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product")
-    public String getProduct(Model model) {
-        List<Product> products = this.productService.getAllProducts();
+    public String getProduct(Model model, @RequestParam int page) {
+        // page / limit
+        // database = 100: offset + limit
+
+        // page = 1, limit = 10 => 10 page => page = 2 => offset = 10
+
+        Pageable pageable = PageRequest.of(page - 1, 2);
+
+        Page<Product> pageProducts = this.productService.getAllProducts(pageable);
+        List<Product> products = pageProducts.getContent();
         model.addAttribute("products", products);
         return "admin/product/show";
     }
@@ -84,14 +95,14 @@ public class ProductController {
 
     @PostMapping("/admin/product/update")
     public String postUpdateProduct(
-        Model model, 
-        @ModelAttribute("updateProduct") @Valid Product product,
-        BindingResult newProductBindingResult
-    ) {
+            Model model,
+            @ModelAttribute("updateProduct") @Valid Product product,
+            BindingResult newProductBindingResult) {
         List<FieldError> errors = newProductBindingResult.getFieldErrors();
 
         for (FieldError error : errors) {
-            // System.out.println(">>> " + error.getField() + " - " + error.getDefaultMessage() + "\n");
+            // System.out.println(">>> " + error.getField() + " - " +
+            // error.getDefaultMessage() + "\n");
         }
 
         if (newProductBindingResult.hasErrors()) {
@@ -122,13 +133,13 @@ public class ProductController {
         model.addAttribute("newProduct", new Product());
         return "/admin/product/delete";
     }
-    
+
     @PostMapping("admin/product/delete")
-    public String postDeleteProduct(@ModelAttribute("newProduct")Product product) throws IOException {
+    public String postDeleteProduct(@ModelAttribute("newProduct") Product product) throws IOException {
 
         String pathAvatar = this.productService.getProductById(product.getId()).getImage();
         this.uploadService.handleDeleteFile(pathAvatar, "product");
-        
+
         this.productService.deleteAProduct(product.getId());
         String redirectUrl = "/admin/product";
         return "redirect:" + redirectUrl;
@@ -139,7 +150,8 @@ public class ProductController {
         Product product = this.productService.getProductById(id);
 
         model.addAttribute("product", product);
-        
+
         return "admin/product/detail";
-   }
+    }
+
 }
