@@ -2,6 +2,7 @@ package com.duongpham26.LaptopShop.controller.admin;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,17 +41,29 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product")
-    public String getProduct(Model model, @RequestParam int page) {
+    public String getProduct(Model model,
+            @RequestParam("page") Optional<String> pageString) {
         // page / limit
         // database = 100: offset + limit
 
         // page = 1, limit = 10 => 10 page => page = 2 => offset = 10
+        int page = 1;
+
+        try {
+            if (pageString.isPresent()) {
+                page = Integer.parseInt(pageString.get());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         Pageable pageable = PageRequest.of(page - 1, 2);
 
         Page<Product> pageProducts = this.productService.getAllProducts(pageable);
         List<Product> products = pageProducts.getContent();
         model.addAttribute("products", products);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", pageProducts.getTotalPages());
         return "admin/product/show";
     }
 
