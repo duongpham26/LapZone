@@ -119,16 +119,28 @@
                                                     </button>
                                                 </div>
                                                 <input type="text"
-                                                    class="form-control form-control-sm text-center border-0" value="1">
+                                                    class="form-control form-control-sm text-center border-0" value="1"
+                                                    data-cart-detail-index="0">
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                         <i class="fa fa-plus"></i>
                                                     </button>
                                                 </div>
                                             </div>
-                                            <a href="#"
-                                                class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i
-                                                    class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                            <form action="/add-product-from-view-detail" method="post"
+                                                modelAttribute="product">
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
+                                                <input type="text" class="form-control d-none" value="${product.id}"
+                                                    name="id">
+                                                <input class="form-control d-none" type="text"
+                                                    id="cartDetails0.quantity" name="quantity">
+                                                <button
+                                                    class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
+                                                    type="submit"><i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                    Add to cart
+                                                </button>
+                                            </form>
                                         </div>
                                         <div class="col-lg-12">
                                             <nav>
@@ -152,10 +164,6 @@
                                 <div class="col-lg-4 col-xl-3">
                                     <div class="row g-4 fruite">
                                         <div class="col-lg-12">
-                                            <!-- <div class="input-group w-100 mx-auto d-flex mb-4">
-                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                                </div> -->
                                             <div class="mb-4">
                                                 <h4>Categories</h4>
                                                 <ul class="list-unstyled fruite-categorie">
