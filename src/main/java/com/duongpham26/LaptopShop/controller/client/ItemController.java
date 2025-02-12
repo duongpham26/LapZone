@@ -2,7 +2,11 @@ package com.duongpham26.LaptopShop.controller.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -133,5 +137,32 @@ public class ItemController {
       String email = (String) session.getAttribute("email");
       this.productService.handleAddProductToCart(email, id, session, quantity);
       return "redirect:/product/" + id;
+   }
+
+   @GetMapping("/products")
+   public String getProductPage(Model model,
+         @RequestParam("page") Optional<String> pageString) {
+      // page / limit
+      // database = 100: offset + limit
+
+      // page = 1, limit = 10 => 10 page => page = 2 => offset = 10
+      int page = 1;
+
+      try {
+         if (pageString.isPresent()) {
+            page = Integer.parseInt(pageString.get());
+         }
+      } catch (Exception e) {
+         // TODO: handle exception
+      }
+
+      Pageable pageable = PageRequest.of(page - 1, 4);
+
+      Page<Product> pageProducts = this.productService.getAllProducts(pageable);
+      List<Product> products = pageProducts.getContent();
+      model.addAttribute("products", products);
+      model.addAttribute("currentPage", page);
+      model.addAttribute("totalPages", pageProducts.getTotalPages());
+      return "client/product/show";
    }
 }

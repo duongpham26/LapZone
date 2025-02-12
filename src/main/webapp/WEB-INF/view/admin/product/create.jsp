@@ -111,7 +111,7 @@
                                           <form:option value="MSI">MSI</form:option>
                                           <form:option value="DELL">Dell</form:option>
                                           <form:option value="MICROSOFT">Microsoft</form:option>
-                                          <form:option value="SONY VAIO">Sony VAIO</form:option>
+                                          <form:option value="SONY">Sony VAIO</form:option>
                                        </form:select>
                                     </div>
 

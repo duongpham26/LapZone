@@ -82,9 +82,8 @@
                                  </li>
                               </c:forEach>
 
-                              <li class="page-item">
-                                 <a class="page-link ${totalPages eq currentPage ? 'disabled' : ''}"
-                                    href="/admin/product?page=${currentPage + 1}" aria-label="Next">
+                              <li class="page-item ${totalPages eq currentPage ? 'disabled' : ''}">
+                                 <a class="page-link" href="/admin/product?page=${currentPage + 1}" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                  </a>
                               </li>
