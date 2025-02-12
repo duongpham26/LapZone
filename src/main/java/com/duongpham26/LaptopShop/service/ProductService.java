@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.duongpham26.LaptopShop.domain.Cart;
@@ -12,12 +13,14 @@ import com.duongpham26.LaptopShop.domain.CartDetail;
 import com.duongpham26.LaptopShop.domain.Order;
 import com.duongpham26.LaptopShop.domain.OrderDetail;
 import com.duongpham26.LaptopShop.domain.Product;
+import com.duongpham26.LaptopShop.domain.Product_;
 import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.repository.CartDetailRepository;
 import com.duongpham26.LaptopShop.repository.CartRepository;
 import com.duongpham26.LaptopShop.repository.OrderDetailRepository;
 import com.duongpham26.LaptopShop.repository.OrderRepository;
 import com.duongpham26.LaptopShop.repository.ProductRepository;
+import com.duongpham26.LaptopShop.repository.specification.ProductSpecs;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -49,6 +52,10 @@ public class ProductService {
       this.cartDetailRepository = cartDetailRepository;
       this.orderDetailRepository = orderDetailRepository;
       this.orderRepository = orderRepository;
+   }
+
+   public Page<Product> getAllProducts(Pageable pageable, String name) {
+      return this.productRepository.findAll(ProductSpecs.nameLike(name), pageable);
    }
 
    public Page<Product> getAllProducts(Pageable pageable) {
