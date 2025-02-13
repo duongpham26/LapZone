@@ -139,18 +139,21 @@
                                  </div>
                               </div>
 
-                              <div class="col-12">
+                              <div class="col-12" id="sortFilter">
                                  <div class="mb-2"><b>Sort</b></div>
+
                                  <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="sort-1" value="sort-1">
+                                    <input class="form-check-input" type="radio" id="sort_1" value="sort-1"
+                                       name="radio-sort">
                                     <label class="form-check-label" for="sort-1">Price ascending</label>
                                  </div>
                                  <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="sort-2" value="sort-2">
+                                    <input class="form-check-input" type="radio" id="sort_2" value="sort-2"
+                                       name="radio-sort">
                                     <label class="form-check-label" for="sort-2">Price descending</label>
                                  </div>
                                  <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="sort-3" value="sort-3" checked
+                                    <input class="form-check-input" type="radio" id="sort_3" value="sort-3" checked
                                        name="radio-sort">
                                     <label class="form-check-label" for="sort-3">Not sort</label>
                                  </div>
@@ -208,7 +211,7 @@
                                  <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center flex-row d-flex mt-4">
                                        <li class="page-item ${1 eq currentPage ? 'disabled' : ''}">
-                                          <a class=" page-link" href="/products?page=${currentPage - 1}"
+                                          <a class=" page-link" href="/products?page=${currentPage - 1}${queryString}"
                                              aria-label="Previous">
                                              <span aria-hidden="true">&laquo;</span>
                                           </a>
@@ -218,14 +221,14 @@
                                           varStatus="loop">
                                           <li class="page-item">
                                              <a class="page-link ${(loop.index + 1) eq currentPage ? 'active' : ''}"
-                                                href="/products?page=${loop.index + 1}">
+                                                href="/products?page=${loop.index + 1}${queryString}">
                                                 ${loop.index +1}
                                              </a>
                                           </li>
                                        </c:forEach>
 
                                        <li class="page-item ${totalPages eq currentPage ? 'disabled' : ''}">
-                                          <a class="page-link" href="/products?page=${currentPage + 1}"
+                                          <a class="page-link" href="/products?page=${currentPage + 1}${queryString}"
                                              aria-label="Next">
                                              <span aria-hidden="true">&raquo;</span>
                                           </a>

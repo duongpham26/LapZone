@@ -254,6 +254,38 @@
         window.location.href = currentUrl.toString();
     })
 
+    // handle auto checkbox after page reload
+
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.has('factory')) {
+        const factories = params.get('factory').split(',');
+        factories.forEach(factory => {
+            $(`#factoryFilter .form-check-input[value="${factory}"]`).prop("checked", true);
+        })
+    }
+
+    if (params.has('price')) {
+        const prices = params.get('price').split(',');
+        prices.forEach(price => {
+            $(`#priceFilter .form-check-input[value="${price}"]`).prop("checked", true);
+        })
+    }
+
+    if (params.has('target')) {
+        const targets = params.get('target').split(',');
+        targets.forEach(target => {
+            $(`#targetFilter .form-check-input[value="${target}"]`).prop("checked", true);
+        })
+    }
+
+    if (params.has('sort')) {
+        const sorts = params.get('sort').split(',');
+        sorts.forEach(sort => {
+            $(`#sortFilter .form-check-input[value="${sort}"]`).prop("checked", true);
+        })
+    }
+
 
 })(jQuery);
 
