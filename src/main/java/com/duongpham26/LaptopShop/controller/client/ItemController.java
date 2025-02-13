@@ -1,6 +1,7 @@
 package com.duongpham26.LaptopShop.controller.client;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -142,7 +143,11 @@ public class ItemController {
    @GetMapping("/products")
    public String getProductPage(Model model,
          @RequestParam("page") Optional<String> pageString,
-         @RequestParam("name") Optional<String> nameOptional) {
+         @RequestParam("name") Optional<String> nameOptional,
+         @RequestParam("min-price") Optional<String> minOptional,
+         @RequestParam("max-price") Optional<String> maxOptional,
+         @RequestParam("price") Optional<String> priceOptional,
+         @RequestParam("factory") Optional<String> factoryOptional) {
       // page / limit
       // database = 100: offset + limit
 
@@ -158,9 +163,34 @@ public class ItemController {
       }
 
       String name = nameOptional.isPresent() ? nameOptional.get() : "";
-      Pageable pageable = PageRequest.of(page - 1, 4);
+      double min = minOptional.isPresent() ? Double.parseDouble(minOptional.get()) : 0;
+      double max = maxOptional.isPresent() ? Double.parseDouble(maxOptional.get()) : 0;
+      String factory = factoryOptional.isPresent() ? factoryOptional.get() : "";
 
-      Page<Product> pageProducts = this.productService.getAllProducts(pageable, name);
+      Pageable pageable = PageRequest.of(page - 1, 60);
+
+      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
+      // name);
+      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
+      // min);
+      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
+      // factory);
+
+      // many factory
+      // List<String> factorys = factoryOptional.isPresent() ?
+      // Arrays.asList(factoryOptional.get().split(",")) : null;
+      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
+      // factorys);
+
+      // price
+      // String price = priceOptional.isPresent() ? priceOptional.get() : "";
+      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
+      // price);
+
+      // list price
+      List<String> prices = priceOptional.isPresent() ? Arrays.asList(priceOptional.get().split(",")) : null;
+      Page<Product> pageProducts = this.productService.getAllProducts(pageable, prices);
+
       List<Product> products = pageProducts.getContent();
       model.addAttribute("products", products);
       model.addAttribute("currentPage", page);

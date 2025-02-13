@@ -73,7 +73,7 @@
                                  </a>
                               </li>
 
-                              <c:forEach begin="0" end="${totalPages - 1}" varStatus="loop">
+                              <c:forEach begin="0" end="${(totalPages eq 0) ? 0 : totalPages - 1}" varStatus="loop">
                                  <li class="page-item">
                                     <a class="page-link ${(loop.index + 1) eq currentPage ? 'active' : ''}"
                                        href="/admin/product?page=${loop.index + 1}">

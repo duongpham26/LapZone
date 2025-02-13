@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import com.duongpham26.LaptopShop.domain.Cart;
@@ -54,8 +55,92 @@ public class ProductService {
       this.orderRepository = orderRepository;
    }
 
-   public Page<Product> getAllProducts(Pageable pageable, String name) {
-      return this.productRepository.findAll(ProductSpecs.nameLike(name), pageable);
+   // public Page<Product> getAllProducts(Pageable pageable, String name) {
+   // return this.productRepository.findAll(ProductSpecs.nameLike(name), pageable);
+   // }
+
+   // min price
+   // public Page<Product> getAllProducts(Pageable pageable, double price) {
+   // return this.productRepository.findAll(ProductSpecs.minPrice(price),
+   // pageable);
+   // }
+
+   // max price
+   public Page<Product> getAllProducts(Pageable pageable, double price) {
+      return this.productRepository.findAll(ProductSpecs.maxPrice(price), pageable);
+   }
+
+   // factory
+   // public Page<Product> getAllProducts(Pageable pageable, String factory) {
+   // return this.productRepository.findAll(ProductSpecs.matchFactory(factory),
+   // pageable);
+   // }
+
+   // factory
+   // public Page<Product> getAllProducts(Pageable pageable, List<String>
+   // factories) {
+   // return
+   // this.productRepository.findAll(ProductSpecs.matchListFactory(factories),
+   // pageable);
+   // }
+
+   // price
+   public Page<Product> getAllProducts(Pageable pageable, String price) {
+
+      if (price.equals("price-1")) {
+         double min = 10000000;
+         double max = 15000000;
+         return this.productRepository.findAll(ProductSpecs.matchPrice(min, max), pageable);
+
+      } else if (price.equals("price-2")) {
+         double min = 15000000;
+         double max = 30000000;
+         return this.productRepository.findAll(ProductSpecs.matchPrice(min, max), pageable);
+      } else {
+         return this.productRepository.findAll(pageable);
+      }
+   }
+
+   // multi price
+   public Page<Product> getAllProducts(Pageable pageable, List<String> prices) {
+      Specification<Product> combineSpec = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
+      int count = 0;
+      if (prices != null) {
+         for (String price : prices) {
+            double min = 0;
+            double max = 0;
+
+            switch (price) {
+               case "price-1":
+                  min = 10000000;
+                  max = 15000000;
+                  count++;
+                  break;
+               case "price-2":
+                  min = 10000000;
+                  max = 15000000;
+                  count++;
+                  break;
+               case "price-3":
+                  min = 10000000;
+                  max = 15000000;
+                  count++;
+                  break;
+            }
+
+            if (min != 0 && max != 0) {
+               Specification<Product> rangeSpec = ProductSpecs.matchMultiPrice(min, max);
+               combineSpec = combineSpec.or(rangeSpec);
+            }
+         }
+      }
+
+      if (count == 0) {
+         return this.productRepository.findAll(pageable);
+      }
+
+      return this.productRepository.findAll(combineSpec, pageable);
+
    }
 
    public Page<Product> getAllProducts(Pageable pageable) {
