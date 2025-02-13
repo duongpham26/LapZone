@@ -203,5 +203,57 @@
         return formatted;
     }
 
+    $('#btnFilter').click(function (e) {
+        e.preventDefault();
+
+        let factoryArr = [];
+        let targetArr = [];
+        let priceArr = [];
+
+        $("#factoryFilter .form-check-input:checked").each(function () {
+            factoryArr.push($(this).val());
+        });
+
+        $("#targetFilter .form-check-input:checked").each(function () {
+            targetArr.push($(this).val());
+        });
+
+        $("#priceFilter .form-check-input:checked").each(function () {
+            priceArr.push($(this).val());
+        });
+
+        // sort
+        let sortValue = $('input[name="radio-sort"]:checked').val();
+
+        const currentUrl = new URL(window.location.href);
+        const searchParams = currentUrl.searchParams;
+
+        // add or update query parameter
+        searchParams.set('page', 1);
+        searchParams.set('sort', sortValue);
+
+        // reset 
+        searchParams.delete('factory');
+        searchParams.delete('target');
+        searchParams.delete('price');
+
+
+        if (factoryArr.length > 0) {
+            searchParams.set('factory', factoryArr.join(','));
+        }
+
+        if (targetArr.length > 0) {
+            searchParams.set('target', targetArr.join(','));
+        }
+
+        if (priceArr.length > 0) {
+            searchParams.set('price', priceArr.join(','));
+        }
+
+        //update url and reload
+        window.location.href = currentUrl.toString();
+    })
+
+
 })(jQuery);
 

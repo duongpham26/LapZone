@@ -62,10 +62,10 @@
                      </nav>
 
 
-                     <div class="row g-4 ">
+                     <div class="row g-4 mt-4">
                         <div class="col-12 col-md-4">
                            <div class="row g-4">
-                              <div class="col-12">
+                              <div class="col-12" id="factoryFilter">
                                  <div class="mb-2"><b>Factory</b></div>
                                  <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="factory-1" value="APPLE">
@@ -104,7 +104,7 @@
                                     <label class="form-check-label" for="factory-9">Sony VAIO</label>
                                  </div>
                               </div>
-                              <div class="col-12">
+                              <div class="col-12" id="targetFilter">
                                  <div class="mb-2"><b>Target</b></div>
                                  <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="target-1" value="office">
@@ -119,7 +119,7 @@
                                     <label class="form-check-label" for="target-3">Other</label>
                                  </div>
                               </div>
-                              <div class="col-12">
+                              <div class="col-12" id="priceFilter">
                                  <div class="mb-2"><b>Price</b></div>
                                  <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="price-1" value="price-1">
@@ -150,79 +150,90 @@
                                     <label class="form-check-label" for="sort-2">Price descending</label>
                                  </div>
                                  <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="sort-3" value="sort-3">
+                                    <input class="form-check-input" type="checkbox" id="sort-3" value="sort-3" checked
+                                       name="radio-sort">
                                     <label class="form-check-label" for="sort-3">Not sort</label>
                                  </div>
                               </div>
                            </div>
                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mt-4"
-                              type="submit">Filter product</button>
+                              type="submit" id="btnFilter">Filter product</button>
                         </div>
 
                         <div class="col-12 col-md-8">
+
                            <div class="row g-4">
-                              <c:forEach var="product" items="${products}">
-                                 <div class="col-12 col-md-4">
-                                    <div class="rounded position-relative fruite-item border">
-                                       <div class="fruite-img">
-                                          <img src="/images/product/${product.image}" class="img-fluid w-90 rounded-top"
-                                             alt="">
-                                       </div>
-                                       <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                          style="top: 10px; left: 10px;">${product.factory}
-                                       </div>
-                                       <div class="p-4 rounded-bottom">
-                                          <p style="font-size: 15px; font-weight: bold; text-align: center;"
-                                             class="mb-2">
-                                             <a href="/product/${product.id}">${product.name}</a>
-                                          </p>
-                                          <p style="font-size: 13px; text-align: center;">${product.shortDesc}</p>
-                                          <div class="flex-lg-wrap">
-                                             <p class="text-dark fs-5 fw-bold mb-3"
-                                                style="font-size: 15px; text-align: center; width: 100%;">
-                                                <fmt:formatNumber type="number" value="${product.price}" /> VND
+                              <c:if test="${totalPages eq 0}">
+                                 <div class="d-flex align-items-center justify-content-center">
+                                    No products available
+                                 </div>
+                              </c:if>
+                              <c:if test="${totalPages > 0}">
+                                 <c:forEach var="product" items="${products}">
+                                    <div class="col-12 col-md-4">
+                                       <div class="rounded position-relative fruite-item border">
+                                          <div class="fruite-img">
+                                             <img src="/images/product/${product.image}"
+                                                class="img-fluid w-90 rounded-top" alt="">
+                                          </div>
+                                          <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                             style="top: 10px; left: 10px;">${product.factory}
+                                          </div>
+                                          <div class="p-4 rounded-bottom">
+                                             <p style="font-size: 15px; font-weight: bold; text-align: center;"
+                                                class="mb-2">
+                                                <a href="/product/${product.id}">${product.name}</a>
                                              </p>
-                                             <form action="/add-product-to-cart/${product.id}" method="post">
-                                                <div>
-                                                   <input type="hidden" name="${_csrf.parameterName}"
-                                                      value="${_csrf.token}" />
-                                                </div>
-                                                <button href="#"
-                                                   class="mx-auto btn border border-secondary rounded-pill px-3 text-primary mt-1 d-flex align-items-center">
-                                                   <i class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                   Add to cart</button>
-                                             </form>
+                                             <p style="font-size: 13px; text-align: center;">${product.shortDesc}</p>
+                                             <div class="flex-lg-wrap">
+                                                <p class="text-dark fs-5 fw-bold mb-3"
+                                                   style="font-size: 15px; text-align: center; width: 100%;">
+                                                   <fmt:formatNumber type="number" value="${product.price}" /> VND
+                                                </p>
+                                                <form action="/add-product-to-cart/${product.id}" method="post">
+                                                   <div>
+                                                      <input type="hidden" name="${_csrf.parameterName}"
+                                                         value="${_csrf.token}" />
+                                                   </div>
+                                                   <button href="#"
+                                                      class="mx-auto btn border border-secondary rounded-pill px-3 text-primary mt-1 d-flex align-items-center">
+                                                      <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                      Add to cart</button>
+                                                </form>
+                                             </div>
                                           </div>
                                        </div>
                                     </div>
-                                 </div>
-                              </c:forEach>
-                           </div>
-                           <nav aria-label="Page navigation example">
-                              <ul class="pagination justify-content-center flex-row d-flex mt-4">
-                                 <li class="page-item ${1 eq currentPage ? 'disabled' : ''}">
-                                    <a class=" page-link" href="/products?page=${currentPage - 1}"
-                                       aria-label="Previous">
-                                       <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                 </li>
-
-                                 <c:forEach begin="0" end="${(totalPages eq 0) ? 0 : totalPages - 1}" varStatus="loop">
-                                    <li class="page-item">
-                                       <a class="page-link ${(loop.index + 1) eq currentPage ? 'active' : ''}"
-                                          href="/products?page=${loop.index + 1}">
-                                          ${loop.index +1}
-                                       </a>
-                                    </li>
                                  </c:forEach>
+                                 <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center flex-row d-flex mt-4">
+                                       <li class="page-item ${1 eq currentPage ? 'disabled' : ''}">
+                                          <a class=" page-link" href="/products?page=${currentPage - 1}"
+                                             aria-label="Previous">
+                                             <span aria-hidden="true">&laquo;</span>
+                                          </a>
+                                       </li>
 
-                                 <li class="page-item ${totalPages eq currentPage ? 'disabled' : ''}">
-                                    <a class="page-link" href="/products?page=${currentPage + 1}" aria-label="Next">
-                                       <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                 </li>
-                              </ul>
-                           </nav>
+                                       <c:forEach begin="0" end="${(totalPages eq 0) ? 0 : totalPages - 1}"
+                                          varStatus="loop">
+                                          <li class="page-item">
+                                             <a class="page-link ${(loop.index + 1) eq currentPage ? 'active' : ''}"
+                                                href="/products?page=${loop.index + 1}">
+                                                ${loop.index +1}
+                                             </a>
+                                          </li>
+                                       </c:forEach>
+
+                                       <li class="page-item ${totalPages eq currentPage ? 'disabled' : ''}">
+                                          <a class="page-link" href="/products?page=${currentPage + 1}"
+                                             aria-label="Next">
+                                             <span aria-hidden="true">&raquo;</span>
+                                          </a>
+                                       </li>
+                                    </ul>
+                                 </nav>
+                              </c:if>
+                           </div>
                         </div>
                      </div>
                   </div>

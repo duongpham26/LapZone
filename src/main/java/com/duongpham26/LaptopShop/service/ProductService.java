@@ -14,6 +14,7 @@ import com.duongpham26.LaptopShop.domain.CartDetail;
 import com.duongpham26.LaptopShop.domain.Order;
 import com.duongpham26.LaptopShop.domain.OrderDetail;
 import com.duongpham26.LaptopShop.domain.Product;
+import com.duongpham26.LaptopShop.domain.ProductCriteriaDTO;
 import com.duongpham26.LaptopShop.domain.Product_;
 import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.repository.CartDetailRepository;
@@ -55,9 +56,26 @@ public class ProductService {
       this.orderRepository = orderRepository;
    }
 
-   // public Page<Product> getAllProducts(Pageable pageable, String name) {
-   // return this.productRepository.findAll(ProductSpecs.nameLike(name), pageable);
-   // }
+   public Page<Product> getAllProducts(Pageable pageable, ProductCriteriaDTO productCriteriaDTO) {
+      Specification<Product> combineSpec = Specification.where(null);
+
+      if (productCriteriaDTO.getTarget() != null && productCriteriaDTO.getTarget().isPresent()) {
+         Specification<Product> currentSpecs = ProductSpecs.matchListTarget(productCriteriaDTO.getTarget().get());
+         combineSpec = combineSpec.and(currentSpecs);
+      }
+
+      if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
+         Specification<Product> currentSpecs = ProductSpecs.matchListFactory(productCriteriaDTO.getFactory().get());
+         combineSpec = combineSpec.and(currentSpecs);
+      }
+
+      if (productCriteriaDTO.getPrice() != null && productCriteriaDTO.getPrice().isPresent()) {
+         Specification<Product> currentSpecs = this.buildPriceSpecification(productCriteriaDTO.getPrice().get());
+         combineSpec = combineSpec.and(currentSpecs);
+      }
+
+      return this.productRepository.findAll(combineSpec, pageable);
+   }
 
    // min price
    // public Page<Product> getAllProducts(Pageable pageable, double price) {
@@ -102,45 +120,39 @@ public class ProductService {
    }
 
    // multi price
-   public Page<Product> getAllProducts(Pageable pageable, List<String> prices) {
-      Specification<Product> combineSpec = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
-      int count = 0;
+   public Specification<Product> buildPriceSpecification(List<String> prices) {
+      Specification<Product> combineSpec = Specification.where(null); // disconjunction
       if (prices != null) {
          for (String price : prices) {
             double min = 0;
             double max = 0;
-
             switch (price) {
                case "price-1":
-                  min = 10000000;
-                  max = 15000000;
-                  count++;
+                  min = 0;
+                  max = 10000000;
                   break;
                case "price-2":
                   min = 10000000;
                   max = 15000000;
-                  count++;
                   break;
                case "price-3":
-                  min = 10000000;
-                  max = 15000000;
-                  count++;
+                  min = 15000000;
+                  max = 20000000;
+                  break;
+               case "price-4":
+                  min = 20000000;
+                  max = 200000000;
                   break;
             }
 
-            if (min != 0 && max != 0) {
+            if (max != 0) {
                Specification<Product> rangeSpec = ProductSpecs.matchMultiPrice(min, max);
                combineSpec = combineSpec.or(rangeSpec);
             }
          }
       }
 
-      if (count == 0) {
-         return this.productRepository.findAll(pageable);
-      }
-
-      return this.productRepository.findAll(combineSpec, pageable);
-
+      return combineSpec;
    }
 
    public Page<Product> getAllProducts(Pageable pageable) {

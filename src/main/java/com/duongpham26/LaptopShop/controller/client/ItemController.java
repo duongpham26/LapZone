@@ -19,6 +19,7 @@ import com.duongpham26.LaptopShop.domain.Cart;
 import com.duongpham26.LaptopShop.domain.CartDetail;
 import com.duongpham26.LaptopShop.domain.Order;
 import com.duongpham26.LaptopShop.domain.Product;
+import com.duongpham26.LaptopShop.domain.ProductCriteriaDTO;
 import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.service.CartService;
 import com.duongpham26.LaptopShop.service.ProductService;
@@ -141,13 +142,7 @@ public class ItemController {
    }
 
    @GetMapping("/products")
-   public String getProductPage(Model model,
-         @RequestParam("page") Optional<String> pageString,
-         @RequestParam("name") Optional<String> nameOptional,
-         @RequestParam("min-price") Optional<String> minOptional,
-         @RequestParam("max-price") Optional<String> maxOptional,
-         @RequestParam("price") Optional<String> priceOptional,
-         @RequestParam("factory") Optional<String> factoryOptional) {
+   public String getProductPage(Model model, ProductCriteriaDTO productCriteriaDTO) {
       // page / limit
       // database = 100: offset + limit
 
@@ -155,41 +150,15 @@ public class ItemController {
       int page = 1;
 
       try {
-         if (pageString.isPresent()) {
-            page = Integer.parseInt(pageString.get());
+         if (productCriteriaDTO.getPage().isPresent()) {
+            page = Integer.parseInt(productCriteriaDTO.getPage().get());
          }
       } catch (Exception e) {
          // TODO: handle exception
       }
 
-      String name = nameOptional.isPresent() ? nameOptional.get() : "";
-      double min = minOptional.isPresent() ? Double.parseDouble(minOptional.get()) : 0;
-      double max = maxOptional.isPresent() ? Double.parseDouble(maxOptional.get()) : 0;
-      String factory = factoryOptional.isPresent() ? factoryOptional.get() : "";
-
       Pageable pageable = PageRequest.of(page - 1, 60);
-
-      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
-      // name);
-      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
-      // min);
-      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
-      // factory);
-
-      // many factory
-      // List<String> factorys = factoryOptional.isPresent() ?
-      // Arrays.asList(factoryOptional.get().split(",")) : null;
-      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
-      // factorys);
-
-      // price
-      // String price = priceOptional.isPresent() ? priceOptional.get() : "";
-      // Page<Product> pageProducts = this.productService.getAllProducts(pageable,
-      // price);
-
-      // list price
-      List<String> prices = priceOptional.isPresent() ? Arrays.asList(priceOptional.get().split(",")) : null;
-      Page<Product> pageProducts = this.productService.getAllProducts(pageable, prices);
+      Page<Product> pageProducts = this.productService.getAllProducts(pageable, productCriteriaDTO);
 
       List<Product> products = pageProducts.getContent();
       model.addAttribute("products", products);
