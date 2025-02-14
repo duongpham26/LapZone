@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import com.duongpham26.LaptopShop.domain.Cart;
@@ -15,7 +14,6 @@ import com.duongpham26.LaptopShop.domain.Order;
 import com.duongpham26.LaptopShop.domain.OrderDetail;
 import com.duongpham26.LaptopShop.domain.Product;
 import com.duongpham26.LaptopShop.domain.ProductCriteriaDTO;
-import com.duongpham26.LaptopShop.domain.Product_;
 import com.duongpham26.LaptopShop.domain.User;
 import com.duongpham26.LaptopShop.repository.CartDetailRepository;
 import com.duongpham26.LaptopShop.repository.CartRepository;

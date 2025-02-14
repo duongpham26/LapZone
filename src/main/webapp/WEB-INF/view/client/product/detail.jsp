@@ -161,7 +161,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-xl-3">
+                                <!-- <div class="col-lg-4 col-xl-3">
                                     <div class="row g-4 fruite">
                                         <div class="col-lg-12">
                                             <div class="mb-4">
@@ -202,7 +202,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
