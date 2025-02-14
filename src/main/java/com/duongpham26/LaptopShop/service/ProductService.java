@@ -20,7 +20,7 @@ import com.duongpham26.LaptopShop.repository.CartRepository;
 import com.duongpham26.LaptopShop.repository.OrderDetailRepository;
 import com.duongpham26.LaptopShop.repository.OrderRepository;
 import com.duongpham26.LaptopShop.repository.ProductRepository;
-import com.duongpham26.LaptopShop.repository.specification.ProductSpecs;
+import com.duongpham26.LaptopShop.service.specification.ProductSpecs;
 
 import jakarta.servlet.http.HttpSession;
 

@@ -1,4 +1,4 @@
-package com.duongpham26.LaptopShop.repository.specification;
+package com.duongpham26.LaptopShop.service.specification;
 
 import java.util.List;
 

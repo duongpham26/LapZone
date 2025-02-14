@@ -37,8 +37,8 @@
                                                 <c:out value="${sessionScope.fullName}" />
                                             </div>
                                         </li>
-                                        <li> <a href="#" class="dropdown-item">Quản lí tài khoản</a></li>
-                                        <li> <a href="#" class="dropdown-item">Lịch sử mua hàng</a></li>
+                                        <li> <a href="#" class="dropdown-item">Account management</a></li>
+                                        <li> <a href="/order-history" class="dropdown-item">Purchuse history</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
@@ -46,7 +46,7 @@
                                             <form action=" /logout" method="post">
                                                 <input type="hidden" name="${_csrf.parameterName}"
                                                     value="${_csrf.token}" />
-                                                <button class="dropdown-item">Đăng xuất</button>
+                                                <button class="dropdown-item">Sign out</button>
                                             </form>
                                         </li>
                                     </ul>
@@ -55,7 +55,7 @@
 
                             <c:if test="${empty pageContext.request.userPrincipal.name}">
                                 <a href="/login" class="a-login position-relative me-4 my-auto">
-                                    Đăng nhập
+                                    Login
                                 </a>
 
                             </c:if>
