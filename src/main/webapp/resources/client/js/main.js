@@ -287,5 +287,57 @@
     }
 
 
+    $('.btnAddToCartHomePage').click(function (event) {
+
+        event.preventDefault();
+
+        if (!isLogin()) {
+            $.toast({
+                heading: 'error',
+                text: "You need login",
+                position: "top-right",
+                icon: 'error'
+            })
+            return;
+        }
+        const productId = $(this).attr('data-product-id');
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const quantity = $("#cartDetails0\\.quantity").val();
+
+        $.ajax({
+            url: `${window.location.origin}/api/add-product-to-cart`,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            type: "POST",
+            data: JSON.stringify({ quantity: quantity, productId: productId }),
+            contentType: "application/json",
+
+            success: function (response) {
+                const sum = +response;
+
+                //update cart
+                $("#sumCart").text(sum)
+                $.toast({
+                    heading: 'Cart',
+                    text: "Add product successfully",
+                    position: "top-right",
+                })
+            }
+
+        })
+    })
+
+    function isLogin() {
+        const navElement = $("#navbarCollapse");
+        const childLogin = navElement.find('a.a-login');
+        if (childLogin.length > 0) {
+            return false;
+        }
+        return true;
+    }
+
+
 })(jQuery);
 

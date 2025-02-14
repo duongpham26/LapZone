@@ -128,7 +128,7 @@ public class ProductService {
             double max = 0;
             switch (price) {
                case "price-1":
-                  min = 0;
+                  min = 1;
                   max = 10000000;
                   break;
                case "price-2":
@@ -145,7 +145,7 @@ public class ProductService {
                   break;
             }
 
-            if (max != 0) {
+            if (min != 0 && max != 0) {
                Specification<Product> rangeSpec = ProductSpecs.matchMultiPrice(min, max);
                combineSpec = combineSpec.or(rangeSpec);
             }

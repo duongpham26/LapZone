@@ -12,6 +12,12 @@
                <meta content="" name="keywords">
                <meta content="" name="description">
 
+               <meta name="_csrf" content="${_csrf.token}">
+               <meta name="_csrf_header" content="${_csrf.headerName}">
+
+               <link rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js">
+
                <!-- Google Web Fonts -->
                <link rel="preconnect" href="https://fonts.googleapis.com">
                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
